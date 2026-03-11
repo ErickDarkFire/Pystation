@@ -1,4 +1,5 @@
 import pygame
+
 WIDTH, HEIGHT = 1280, 800
 FPS = 60
 FELT_COLOR = (0, 80, 0)
@@ -17,9 +18,12 @@ ADVICE_COLOR = (0, 200, 255)
 STATS_COLOR = (255, 255, 100)
 
 pygame.font.init()
+
+
 def get_font(size, bold=False):
-    fonts = ['arial', 'helvetica', 'calibri', 'verdana']
+    fonts = ["arial", "helvetica", "calibri", "verdana"]
     return pygame.font.SysFont(pygame.font.match_font(fonts) or None, size, bold=bold)
+
 
 FONT_UI = get_font(28, True)
 FONT_CARD = get_font(36, True)

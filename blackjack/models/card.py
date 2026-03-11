@@ -1,5 +1,6 @@
 from core.settings import WIDTH
 
+
 class Card:
     """Represents a playing card in the Blackjack game.
 
@@ -21,13 +22,13 @@ class Card:
         self.suit = suit
         self.rank = rank
         self.face_up = True
-        
+
         # Numerical logic value
-        if rank in ['J', 'Q', 'K']: 
+        if rank in ["J", "Q", "K"]:
             self.value = 10
-        elif rank == 'A': 
+        elif rank == "A":
             self.value = 11
-        else: 
+        else:
             self.value = int(rank)
 
         # UI Positioning properties (maintained here for easy animation interpolation)
@@ -39,7 +40,7 @@ class Card:
         self.target_y = self.y
 
     def update(self) -> None:
-        """Updates the card's position towards its defined target position to create an animation effect."""
+        """Updates the card's position towards its defined target
+        position to create an animation effect."""
         self.x += (self.target_x - self.x) * 0.15
         self.y += (self.target_y - self.y) * 0.15
-

@@ -1,6 +1,7 @@
 import unittest
 from models.shoe import Shoe
 
+
 class TestShoe(unittest.TestCase):
 
     def test_shoe_initialization(self):
@@ -23,5 +24,6 @@ class TestShoe(unittest.TestCase):
         self.assertEqual(len(s.cards), (6 * 52) - 1)
         self.assertIsNotNone(card)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

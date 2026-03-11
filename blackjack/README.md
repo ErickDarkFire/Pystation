@@ -5,7 +5,7 @@ Este proyecto es una implementación clásica del juego de cartas Blackjack (tam
 
 ## Lógica y Reglas del Juego
 La lógica central sigue las reglas tradicionales del Blackjack:
-1. **Valor de las Cartas**: 
+1. **Valor de las Cartas**:
    - Las cartas del 2 al 10 valen su valor numérico.
    - Las figuras (J, Q, K) valen 10.
    - El As (A) puede valer 1 u 11, dependiendo de qué valor convenga más a la mano actual sin pasarse de 21.
