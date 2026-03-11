@@ -1,4 +1,3 @@
-
 import random
 from enum import Enum, auto
 from itertools import combinations
@@ -7,10 +6,9 @@ from itertools import combinations
 
 SUITS = ("Hearts", "Diamonds", "Clubs", "Spades")
 RANKS = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
-RANK_VALUES = {r: i for i, r in enumerate(RANKS, start=2)}  # 2=2 … A=14
+RANK_VALUES = {r: i for i, r in enumerate(RANKS, start=2)} 
 
 SUIT_SYMBOLS = {"Hearts": "♥", "Diamonds": "♦", "Clubs": "♣", "Spades": "♠"}
-
 
 
 class Card:
@@ -56,7 +54,6 @@ class Deck:
         return len(self.cards)
 
 
-
 class HandRank(Enum):
     HIGH_CARD       = 1
     ONE_PAIR        = 2
@@ -93,7 +90,6 @@ def _rank_counts(cards: list[Card]) -> dict[int, int]:
 
 
 def evaluate_5card_hand(cards: list[Card]) -> tuple[HandRank, list[int]]:
-
     if len(cards) != 5:
         raise ValueError("evaluate_5card_hand requires exactly 5 cards.")
 
@@ -155,13 +151,17 @@ def best_hand_from(hole_cards: list[Card], community_cards: list[Card]) -> tuple
         result = evaluate_5card_hand(list(combo))
         if best is None or compare_hands(result, best) > 0:
             best = result
-    return best  
+    return best  # type: ignore
 
 
 def compare_hands(
     hand_a: tuple[HandRank, list[int]],
     hand_b: tuple[HandRank, list[int]],
 ) -> int:
+    """
+    Compare two evaluated hands.
+    Returns:  1 if hand_a wins, -1 if hand_b wins, 0 for a tie.
+    """
     rank_a, tb_a = hand_a
     rank_b, tb_b = hand_b
 
@@ -181,7 +181,7 @@ def dealer_qualifies(dealer_hand: tuple[HandRank, list[int]]) -> bool:
 
 
 class GamePhase(Enum):
-    WAITING_FOR_BET  = auto()   
+    WAITING_FOR_BET  = auto()  
     PRE_FLOP         = auto()   
     FLOP             = auto()   
     SHOWDOWN         = auto()   
@@ -213,7 +213,6 @@ class PokerGame:
         self.result_message: str = ""
 
 
-
     def place_ante(self, amount: int) -> bool:
         """
         Start a new round with a given ante.
@@ -234,13 +233,18 @@ class PokerGame:
         self.flop = self.community[:3]
         self.phase = GamePhase.FLOP
 
-    def player_bet(self) -> GameResult:
-        """Player matches the ante. Reveal remaining cards and settle."""
+    def player_bet(self) -> GameResult | None:
+        """
+        Player matches the ante. Reveal remaining cards and settle.
+        Returns None (without changing phase) if the player has insufficient chips,
+        so the UI can display a message instead of crashing.
+        """
         if self.phase != GamePhase.FLOP:
             raise RuntimeError("Cannot bet in current phase.")
         if self.chips < self.ante:
-            raise RuntimeError("Not enough chips to call.")
-        self.chips -= self.ante         
+            self.result_message = "No tienes fichas suficientes para apostar. Recarga o retírate."
+            return None
+        self.chips -= self.ante       
         self.turn_river = self.community[3:]
         self.phase = GamePhase.SHOWDOWN
         return self._settle()

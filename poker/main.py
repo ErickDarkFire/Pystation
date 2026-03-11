@@ -21,29 +21,35 @@ C_BTN_RED     = (183, 28, 28)
 C_BTN_RED_H   = (229, 57, 53)
 C_BTN_BLUE    = (21, 101, 192)
 C_BTN_BLUE_H  = (30, 136, 229)
-C_BTN_GOLD    = (160, 120, 20)
-C_BTN_GOLD_H  = (200, 160, 40)
+C_BTN_GOLD    = (140, 100, 10)
+C_BTN_GOLD_H  = (185, 148, 30)
 C_CHIP        = (220, 180, 50)
 C_CARD_BACK   = (25, 60, 130)
 
-SCREEN_W  = 1100
-SCREEN_H  = 780
+SCREEN_W    = 1100
+SCREEN_H    = 800
 
-CARD_W    = 80
-CARD_H    = 115
-FPS       = 60
+CARD_W      = 80
+CARD_H      = 115
+FPS         = 60
 
-TITLE_H       = 58    
-DEALER_Y      = 68    
-COMMUNITY_Y   = 232   
-PLAYER_Y      = 400   
-INFO_Y        = 530  
-MESSAGE_Y     = 592   
-HINT_Y        = 628   
-DIVIDER_Y     = 652   
-BUTTON_Y      = 664   
-BOTTOM_EDGE   = 722   
+TITLE_TOP   = 14
+TITLE_H     = 58      
 
+DEALER_Y    = 68       
+COMMUNITY_Y = 220      
+PLAYER_Y    = 385     
+
+INFO_Y      = 516      
+ANTE_CTL_Y  = 516      
+
+MESSAGE_Y   = 580     
+HINT_Y      = 618      
+
+DIVIDER_Y   = 648    
+
+BUTTON_Y    = 660      
+BOTTOM_Y    = 716      
 
 
 def draw_rounded_rect(surface, color, rect, radius=12, border=0, border_color=None):
@@ -141,32 +147,48 @@ class CasinoPokerApp:
             "card_center": pygame.font.SysFont("Segoe UI Symbol", 34),
             "ui":          pygame.font.SysFont("Georgia", 18),
             "ui_bold":     pygame.font.SysFont("Georgia", 18, bold=True),
-            "result":      pygame.font.SysFont("Georgia", 23, bold=True),
+            "result":      pygame.font.SysFont("Georgia", 22, bold=True),
             "small":       pygame.font.SysFont("Georgia", 14),
-            "btn":         pygame.font.SysFont("Georgia", 16, bold=True),
+            "btn":         pygame.font.SysFont("Georgia", 15, bold=True),
+            "ante_lbl":    pygame.font.SysFont("Georgia", 16),
+            "ante_val":    pygame.font.SysFont("Georgia", 17, bold=True),
         }
 
         self.game       = PokerGame()
         self.ante_input = "25"
-        self.message    = "Welcome!  Set your ante and press DEAL."
+        self.message    = "¡Bienvenido!  Establece tu ante y presiona DEAL."
         self.msg_color  = C_GOLD
 
-        bw = 148   
-        bh = 44
-        gap = (SCREEN_W - 40 - 5 * bw) // 4  
+        MARGIN   = 20
+        BTN_GAP  = 10
+        N_BTNS   = 5
+        BTN_H    = 42
+        total_gap_space = BTN_GAP * (N_BTNS - 1)
+        BTN_W    = (SCREEN_W - 2 * MARGIN - total_gap_space) // N_BTNS
 
         def bx(i):
-            return 20 + i * (bw + gap)
+            return MARGIN + i * (BTN_W + BTN_GAP)
 
-        self.btn_deal     = Button((bx(0), BUTTON_Y, bw,      bh), "DEAL",            C_BTN_BLUE,  C_BTN_BLUE_H,  self.fonts["btn"])
-        self.btn_bet      = Button((bx(1), BUTTON_Y, bw,      bh), "BET",             C_BTN_GREEN, C_BTN_GREEN_H, self.fonts["btn"])
-        self.btn_fold     = Button((bx(2), BUTTON_Y, bw,      bh), "FOLD",            C_BTN_RED,   C_BTN_RED_H,   self.fonts["btn"])
-        self.btn_next     = Button((bx(3), BUTTON_Y, bw,      bh), "NEW ROUND",       C_BTN_BLUE,  C_BTN_BLUE_H,  self.fonts["btn"])
-        self.btn_recharge = Button((bx(4), BUTTON_Y, bw + 10, bh), "RECHARGE ($500)", C_BTN_GOLD,  C_BTN_GOLD_H,  self.fonts["btn"])
+        self.btn_deal     = Button((bx(0), BUTTON_Y, BTN_W, BTN_H), "DEAL",            C_BTN_BLUE,  C_BTN_BLUE_H,  self.fonts["btn"])
+        self.btn_bet      = Button((bx(1), BUTTON_Y, BTN_W, BTN_H), "BET",             C_BTN_GREEN, C_BTN_GREEN_H, self.fonts["btn"])
+        self.btn_fold     = Button((bx(2), BUTTON_Y, BTN_W, BTN_H), "FOLD",            C_BTN_RED,   C_BTN_RED_H,   self.fonts["btn"])
+        self.btn_next     = Button((bx(3), BUTTON_Y, BTN_W, BTN_H), "NEW ROUND",       C_BTN_BLUE,  C_BTN_BLUE_H,  self.fonts["btn"])
+        self.btn_recharge = Button((bx(4), BUTTON_Y, BTN_W, BTN_H), "RECHARGE ($500)", C_BTN_GOLD,  C_BTN_GOLD_H,  self.fonts["btn"])
 
-        nudge_y = INFO_Y + 8
-        self.btn_minus = Button((SCREEN_W - 224, nudge_y, 32, 32), "−", C_GOLD_DIM, C_GOLD, self.fonts["btn"])
-        self.btn_plus  = Button((SCREEN_W - 56,  nudge_y, 32, 32), "+", C_GOLD_DIM, C_GOLD, self.fonts["btn"])
+
+        NUDGE_SZ = 30
+        NUDGE_Y  = ANTE_CTL_Y + 10   
+
+        plus_x  = SCREEN_W - 20 - NUDGE_SZ         
+        val_x   = plus_x - 52 - 6                 
+        minus_x = val_x - NUDGE_SZ - 6            
+        lbl_x   = minus_x - 78                 
+
+        self._ante_lbl_x  = lbl_x
+        self._ante_val_rect = pygame.Rect(val_x, NUDGE_Y, 52, NUDGE_SZ)
+
+        self.btn_minus = Button((minus_x, NUDGE_Y, NUDGE_SZ, NUDGE_SZ), "−", C_GOLD_DIM, C_GOLD, self.fonts["btn"])
+        self.btn_plus  = Button((plus_x,  NUDGE_Y, NUDGE_SZ, NUDGE_SZ), "+", C_GOLD_DIM, C_GOLD, self.fonts["btn"])
 
         self._action_buttons = [
             self.btn_deal, self.btn_bet, self.btn_fold,
@@ -178,7 +200,7 @@ class CasinoPokerApp:
     def _update_buttons(self, mouse_pos):
         phase = self.game.phase
         self.btn_deal.enabled     = phase == GamePhase.WAITING_FOR_BET
-        self.btn_bet.enabled      = phase == GamePhase.FLOP
+        self.btn_bet.enabled      = phase == GamePhase.FLOP and self.game.chips >= self.game.ante
         self.btn_fold.enabled     = phase == GamePhase.FLOP
         self.btn_next.enabled     = phase == GamePhase.SHOWDOWN
         self.btn_recharge.enabled = phase == GamePhase.GAME_OVER
@@ -200,26 +222,28 @@ class CasinoPokerApp:
             self.screen.blit(s, (0, 0))
 
         pygame.draw.rect(self.screen, C_GOLD,
-                         pygame.Rect(10, 10, SCREEN_W - 20, BOTTOM_EDGE),
+                         pygame.Rect(10, 10, SCREEN_W - 20, BOTTOM_Y),
                          2, border_radius=18)
 
         title = self.fonts["title"].render("♠  CASINO POKER  ♠", True, C_GOLD)
-        self.screen.blit(title, title.get_rect(centerx=SCREEN_W // 2, top=14))
+        self.screen.blit(title, title.get_rect(centerx=SCREEN_W // 2, top=TITLE_TOP))
 
-        pygame.draw.line(self.screen, C_GOLD_DIM,
-                         (28, TITLE_H), (SCREEN_W - 28, TITLE_H), 1)
-
-        pygame.draw.line(self.screen, C_GOLD_DIM,
-                         (28, DIVIDER_Y), (SCREEN_W - 28, DIVIDER_Y), 1)
+        pygame.draw.line(self.screen, C_GOLD_DIM, (28, TITLE_H),   (SCREEN_W - 28, TITLE_H),   1)
+        pygame.draw.line(self.screen, C_GOLD_DIM, (28, DIVIDER_Y), (SCREEN_W - 28, DIVIDER_Y), 1)
 
     def _draw_info_bar(self):
-        chip_txt = self.fonts["ui_bold"].render(
-            f"Chips:  ${self.game.chips}", True, C_CHIP)
+        """
+        Left side  : chip count and current ante (when in-round).
+        Right side : ante selector (only while WAITING_FOR_BET).
+        Zone       : INFO_Y → INFO_Y+50
+        """
+        chip_txt = self.fonts["ui_bold"].render(f"Fichas:  ${self.game.chips}", True, C_CHIP)
         self.screen.blit(chip_txt, (28, INFO_Y))
 
-        if self.game.ante > 0:
+        if self.game.ante > 0 and self.game.phase not in (
+                GamePhase.WAITING_FOR_BET, GamePhase.GAME_OVER):
             ante_txt = self.fonts["ui"].render(
-                f"Ante: ${self.game.ante}   •   Call: ${self.game.ante}",
+                f"Ante: ${self.game.ante}   •   Para igualar: ${self.game.ante}",
                 True, C_OFF_WHITE)
             self.screen.blit(ante_txt, (28, INFO_Y + 26))
 
@@ -229,16 +253,16 @@ class CasinoPokerApp:
             except ValueError:
                 val = 0
 
-            lbl = self.fonts["ui"].render("Ante bet:", True, C_OFF_WHITE)
-            self.screen.blit(lbl, (SCREEN_W - 278, INFO_Y + 10))
-
-            box = pygame.Rect(SCREEN_W - 188, INFO_Y + 4, 56, 34)
-            draw_rounded_rect(self.screen, C_FELT_DARK, box, radius=6,
-                              border=2, border_color=C_GOLD)
-            v = self.fonts["ui_bold"].render(str(val), True, C_GOLD)
-            self.screen.blit(v, v.get_rect(center=box.center))
+            lbl = self.fonts["ante_lbl"].render("Ante bet:", True, C_OFF_WHITE)
+            self.screen.blit(lbl, (self._ante_lbl_x,
+                                   self._ante_val_rect.y + (self._ante_val_rect.h - lbl.get_height()) // 2))
 
             self.btn_minus.draw(self.screen)
+
+            draw_rounded_rect(self.screen, C_FELT_DARK, self._ante_val_rect,
+                              radius=6, border=2, border_color=C_GOLD)
+            v = self.fonts["ante_val"].render(str(val), True, C_GOLD)
+            self.screen.blit(v, v.get_rect(center=self._ante_val_rect.center))
             self.btn_plus.draw(self.screen)
 
     def _draw_hand_label(self, text, cx, top):
@@ -258,24 +282,21 @@ class CasinoPokerApp:
 
     def _draw_dealer_hand(self):
         cx = SCREEN_W // 2
-        x0 = cx - (CARD_W + 7)   
-        self._draw_hand_label("Dealer's Hand", cx, DEALER_Y - 20)
+        x0 = cx - (CARD_W + 7)
+        self._draw_hand_label("Mano del Crupier", cx, DEALER_Y - 20)
         face_up = self.game.phase == GamePhase.SHOWDOWN
-        self._draw_cards_row(self.game.dealer_hand, x0, DEALER_Y,
-                             face_up=face_up, n_total=2)
+        self._draw_cards_row(self.game.dealer_hand, x0, DEALER_Y, face_up=face_up, n_total=2)
 
     def _draw_community(self):
         cx  = SCREEN_W // 2
         gap = CARD_W + 14
         x0  = cx - (5 * gap - 14) // 2
-        self._draw_hand_label("Community Cards", cx, COMMUNITY_Y - 20)
-
+        self._draw_hand_label("Cartas Comunitarias", cx, COMMUNITY_Y - 20)
         revealed = self.game.flop + self.game.turn_river
         for i in range(5):
             px = x0 + i * gap
             if i < len(revealed):
-                draw_card(self.screen, revealed[i], px, COMMUNITY_Y,
-                          self.fonts, face_up=True)
+                draw_card(self.screen, revealed[i], px, COMMUNITY_Y, self.fonts, face_up=True)
             else:
                 ph = pygame.Rect(px, COMMUNITY_Y, CARD_W, CARD_H)
                 draw_rounded_rect(self.screen, C_FELT_LIGHT, ph, radius=10,
@@ -284,14 +305,14 @@ class CasinoPokerApp:
     def _draw_player_hand(self):
         cx = SCREEN_W // 2
         x0 = cx - (CARD_W + 7)
-        self._draw_hand_label("Your Hand", cx, PLAYER_Y - 20)
-        self._draw_cards_row(self.game.player_hand, x0, PLAYER_Y,
-                             face_up=True, n_total=2)
+        self._draw_hand_label("Tu Mano", cx, PLAYER_Y - 20)
+        self._draw_cards_row(self.game.player_hand, x0, PLAYER_Y, face_up=True, n_total=2)
 
     def _draw_message(self):
-        strip = pygame.Surface((SCREEN_W - 24, 34), pygame.SRCALPHA)
+        """Result / status message in its own fixed band."""
+        strip = pygame.Surface((SCREEN_W - 24, 32), pygame.SRCALPHA)
         strip.fill((0, 0, 0, 55))
-        self.screen.blit(strip, (12, MESSAGE_Y - 4))
+        self.screen.blit(strip, (12, MESSAGE_Y - 3))
 
         shadow = self.fonts["result"].render(self.message, True, C_BLACK)
         msg    = self.fonts["result"].render(self.message, True, self.msg_color)
@@ -300,14 +321,14 @@ class CasinoPokerApp:
 
     def _draw_hint(self):
         hints = {
-            GamePhase.WAITING_FOR_BET: "Use − / + or type a number to set your ante, then press DEAL.",
-            GamePhase.PRE_FLOP:        "Cards dealt.  The flop is being revealed…",
-            GamePhase.FLOP:            "BET to see the turn & river (costs one ante), or FOLD to surrender.",
-            GamePhase.SHOWDOWN:        "Round complete.  Press NEW ROUND to continue.",
-            GamePhase.GAME_OVER:       "Out of chips!  Press RECHARGE ($500) to keep playing.",
+            GamePhase.WAITING_FOR_BET: "Usa − / + o escribe un número para tu ante, luego presiona DEAL.",
+            GamePhase.PRE_FLOP:        "Cartas repartidas.  Revelando el flop…",
+            GamePhase.FLOP:            "BET para ver el turn y river (cuesta un ante), o FOLD para retirarte.",
+            GamePhase.SHOWDOWN:        "Ronda terminada.  Presiona NEW ROUND para continuar.",
+            GamePhase.GAME_OVER:       "¡Sin fichas!  Presiona RECHARGE ($500) para seguir jugando.",
         }
-        text  = hints.get(self.game.phase, "")
-        hint  = self.fonts["small"].render(text, True, (168, 212, 168))
+        text = hints.get(self.game.phase, "")
+        hint = self.fonts["small"].render(text, True, (168, 212, 168))
         self.screen.blit(hint, hint.get_rect(centerx=SCREEN_W // 2, top=HINT_Y))
 
 
@@ -329,7 +350,7 @@ class CasinoPokerApp:
                     raw = (self.ante_input + event.unicode).lstrip("0")
                     self.ante_input = raw or "0"
 
-            # Nudge buttons
+            # Ante nudge
             if self.btn_minus.clicked(event):
                 try:
                     self.ante_input = str(max(5, int(self.ante_input) - 5))
@@ -350,17 +371,21 @@ class CasinoPokerApp:
                     amt = 0
                 if self.game.place_ante(amt):
                     self.game.reveal_flop()
-                    self.message   = "Flop revealed!  Bet to see the turn & river, or fold."
+                    self.message   = "¡Flop revelado!  Apuesta para ver el turn y river, o retírate."
                     self.msg_color = C_OFF_WHITE
                 else:
-                    self.message   = "Invalid ante — must be at least 5 and no more than your chips."
+                    self.message   = "Ante inválido — debe ser al menos 5 y no superar tus fichas."
                     self.msg_color = C_RED
 
             # BET
             if self.btn_bet.clicked(event):
                 result = self.game.player_bet()
-                self.message   = self.game.result_message
-                self.msg_color = self._result_color(result)
+                if result is None:
+                    self.message   = self.game.result_message
+                    self.msg_color = C_RED
+                else:
+                    self.message   = self.game.result_message
+                    self.msg_color = self._result_color(result)
 
             # FOLD
             if self.btn_fold.clicked(event):
@@ -371,14 +396,14 @@ class CasinoPokerApp:
             # NEW ROUND
             if self.btn_next.clicked(event):
                 self.game.new_round()
-                self.message   = "New round!  Set your ante and press DEAL."
+                self.message   = "¡Nueva ronda!  Establece tu ante y presiona DEAL."
                 self.msg_color = C_GOLD
 
-            # RECHARGE  (only active on GAME_OVER)
+            # RECHARGE
             if self.btn_recharge.clicked(event):
                 self.game.chips = PokerGame.STARTING_CHIPS
                 self.game.new_round()
-                self.message   = "Chips recharged to $500.  Good luck!"
+                self.message   = "Fichas recargadas a $500.  ¡Buena suerte!"
                 self.msg_color = C_GOLD
 
         return True
