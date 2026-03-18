@@ -40,9 +40,10 @@ colores = [
 ]
 
 #Medidas de la ventana
+ancho_marco = 1000
 alto = 500
 ancho = 800
-size = (ancho, alto)
+size = (ancho_marco, alto)
 
 #Visibilidad del mouse
 pygame.mouse.set_visible(False)
@@ -203,6 +204,14 @@ win = False
 
 #Contador para que el efecto de fondo haga el pandeo
 pandeo_cont = 0
+
+#Variables que indican los resultados
+p1_wins = 0
+p2_wins = 0
+
+# Bandera que ayuda a saber si la victoria ya fue contada o no
+victoria_procesada = False
+
 #--------------Variables que si cambian durante el juego --------------------------------------
 
 # Musica del juego
@@ -220,6 +229,17 @@ fondo = pygame.image.load(os.path.join('Tic_tac_toe','img','gato_bg2.jpg')).conv
 p1_cursor = pygame.image.load(os.path.join('Tic_tac_toe','img','p1_cursor.png')).convert()
 p2_cursor = pygame.image.load(os.path.join('Tic_tac_toe','img','p2_cursor.png')).convert()
 
+#Texto del juego:
+Anuncio = pygame.font.Font(None,80)
+Titulos = pygame.font.Font(None,45)
+fuente = pygame.font.Font(None,35)
+p1_text = Titulos.render("Jugador 1:",0,(0,0,0))
+p2_text = Titulos.render("Jugador 2:",0,(0,0,0))
+p1_wins_text = fuente.render("Victorias: " + str(p1_wins),0,(0,0,0))
+p2_wins_text = fuente.render("Victorias: " + str(p2_wins),0,(0,0,0))
+total_games_text = Titulos.render("Partidas: " + str(p1_wins + p2_wins),0,(0,0,0))
+p1_won_text = Anuncio.render("Gano el jugador 1!",0,(255,0,0))
+p2_won_text = Anuncio.render("Gano el jugador 2!",0,(0,0,255))
 
 def Check():
     Ganador = ""
@@ -319,7 +339,7 @@ def Reinicio():
     #Bandera que controla el fin del juego win = False
     #Contador para que el efecto de fondo haga el pandeo pandeo_cont = 0
     #Color de fondo animado
-    return 0,"X", False, False, 0, Escoger_color()
+    return 0,"X", False, False, 0, Escoger_color(), False
     
 def Escoger_color():
     #Obtenemos un numero random para asignarle el color al fondo
@@ -335,15 +355,15 @@ while True:
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONUP:
-            print("click")
+            #print("click")
             clic = True
 
         if event.type == pygame.KEYDOWN:
                 #Con tecla space se reinicia el juego
                 if event.key == pygame.K_SPACE:
-                    print("Reiniciando Juego")
+                    #print("Reiniciando Juego")
                     #Reinicio del juego
-                    turno,fig,clic,win,pandeo_cont,color_selec =Reinicio()
+                    turno,fig,clic,win,pandeo_cont,color_selec, victoria_procesada = Reinicio()
 
     #Obtener posicion/coordenadas del mouse
     mouse_pos = pygame.mouse.get_pos()
@@ -351,7 +371,7 @@ while True:
     y_mouse = mouse_pos[1]
     
     #Color de fondo
-    #screen.fill(WHITE)
+    screen.fill(WHITE)
 
     #Usar imagen de fondo
     bg = pygame.transform.scale(fondo,(ancho,alto))
@@ -386,9 +406,13 @@ while True:
     for i in range(1,3):
         pygame.draw.line(screen,BLACK,(ancho_grid*i,0),(ancho_grid*i,alto),5)
         pygame.draw.line(screen,BLACK,(0,alto_grid*i),(ancho,alto_grid*i),5)
+    #Dibujamos linea divisora dle juego y el menu.
+    pygame.draw.line(screen,BLACK,(ancho,0),(ancho,alto),5)
 
-    coord_tablero = Hover(x_mouse,y_mouse)
-    if clic == True:
+    if not win:
+        coord_tablero = Hover(x_mouse,y_mouse)
+
+    if clic == True and not win:
         print(tablero[coord_tablero[0]][coord_tablero[1]])
         clic = False
         if tablero[coord_tablero[0]][coord_tablero[1]] == "":
@@ -409,16 +433,40 @@ while True:
     ajus = dim_icon/2
     screen.blit(player_img,(x_mouse-ajus,y_mouse-ajus))
 
+    #Dibujamos texto en pantalla
+    screen.blit(p1_text,(ancho_marco-190,0))
+    screen.blit(p1_wins_text,(ancho_marco-190,50))
+    screen.blit(p2_text,(ancho_marco-190,alto//2))
+    screen.blit(p2_wins_text,(ancho_marco-190,(alto//2)+50))
+
+    screen.blit(total_games_text,(ancho_marco-190,alto-50))
     ### ----- ZONA DE DIBUJO
 
     #Revisamos quien gano
-    win = Check()
-    if win == True:
+    if not win:
+        win = Check()
+
+    if win and not victoria_procesada:
         if turno == 1:
+            p1_wins += 1
             print("El ganador es: Player 1!!")
         elif turno == 0:
+            p2_wins += 1
             print("El ganador es: Player 2!!")
-        break    
+
+        #Actualizamos los marcadores
+        p1_wins_text = fuente.render("Victorias: " + str(p1_wins), 0, (0,0,0))
+        p2_wins_text = fuente.render("Victorias: " + str(p2_wins), 0, (0,0,0))
+        total_games_text = Titulos.render("Partidas: " + str(p1_wins + p2_wins), 0, (0,0,0))
+
+        victoria_procesada = True
+    
+    #Dibujamos texto de victoria
+    if win:
+        if turno == 1:
+            screen.blit(p1_won_text,(ancho//4,(alto//2)-40))
+        elif turno == 0:
+            screen.blit(p2_won_text,(ancho//4,(alto//2)-40))
 
     #actualizar pantalla (refrescar)
     pygame.display.flip()
