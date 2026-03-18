@@ -2,11 +2,9 @@ import random
 from enum import Enum, auto
 from itertools import combinations
 
-
-
 SUITS = ("Hearts", "Diamonds", "Clubs", "Spades")
 RANKS = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
-RANK_VALUES = {r: i for i, r in enumerate(RANKS, start=2)} 
+RANK_VALUES = {r: i for i, r in enumerate(RANKS, start=2)}
 
 SUIT_SYMBOLS = {"Hearts": "♥", "Diamonds": "♦", "Clubs": "♣", "Spades": "♠"}
 
@@ -27,7 +25,11 @@ class Card:
         return f"{self.rank}{SUIT_SYMBOLS[self.suit]}"
 
     def __eq__(self, other):
-        return isinstance(other, Card) and self.rank == other.rank and self.suit == other.suit
+        return (
+            isinstance(other, Card)
+            and self.rank == other.rank
+            and self.suit == other.suit
+        )
 
     def __hash__(self):
         return hash((self.rank, self.suit))
@@ -55,16 +57,16 @@ class Deck:
 
 
 class HandRank(Enum):
-    HIGH_CARD       = 1
-    ONE_PAIR        = 2
-    TWO_PAIR        = 3
+    HIGH_CARD = 1
+    ONE_PAIR = 2
+    TWO_PAIR = 3
     THREE_OF_A_KIND = 4
-    STRAIGHT        = 5
-    FLUSH           = 6
-    FULL_HOUSE      = 7
-    FOUR_OF_A_KIND  = 8
-    STRAIGHT_FLUSH  = 9
-    ROYAL_FLUSH     = 10
+    STRAIGHT = 5
+    FLUSH = 6
+    FULL_HOUSE = 7
+    FOUR_OF_A_KIND = 8
+    STRAIGHT_FLUSH = 9
+    ROYAL_FLUSH = 10
 
 
 def _is_flush(cards: list[Card]) -> bool:
@@ -93,10 +95,10 @@ def evaluate_5card_hand(cards: list[Card]) -> tuple[HandRank, list[int]]:
     if len(cards) != 5:
         raise ValueError("evaluate_5card_hand requires exactly 5 cards.")
 
-    flush    = _is_flush(cards)
+    flush = _is_flush(cards)
     straight = _is_straight(cards)
-    counts   = _rank_counts(cards)
-    vals     = sorted(counts.keys(), key=lambda v: (counts[v], v), reverse=True)
+    counts = _rank_counts(cards)
+    vals = sorted(counts.keys(), key=lambda v: (counts[v], v), reverse=True)
 
     if straight and flush:
         high = max(c.value for c in cards)
@@ -104,7 +106,9 @@ def evaluate_5card_hand(cards: list[Card]) -> tuple[HandRank, list[int]]:
             low = sorted(c.value for c in cards)[0]
             if low == 10:
                 return HandRank.ROYAL_FLUSH, [14]
-        return HandRank.STRAIGHT_FLUSH, [high if high != 14 or sorted(c.value for c in cards)[0] != 2 else 5]
+        return HandRank.STRAIGHT_FLUSH, [
+            high if high != 14 or sorted(c.value for c in cards)[0] != 2 else 5
+        ]
 
     count_vals = sorted(counts.values(), reverse=True)
 
@@ -137,7 +141,9 @@ def evaluate_5card_hand(cards: list[Card]) -> tuple[HandRank, list[int]]:
     return HandRank.HIGH_CARD, sorted([c.value for c in cards], reverse=True)
 
 
-def best_hand_from(hole_cards: list[Card], community_cards: list[Card]) -> tuple[HandRank, list[int]]:
+def best_hand_from(
+    hole_cards: list[Card], community_cards: list[Card]
+) -> tuple[HandRank, list[int]]:
     """
     Given 2 hole cards and up to 5 community cards, return the best possible
     5-card hand evaluation.
@@ -179,20 +185,19 @@ def dealer_qualifies(dealer_hand: tuple[HandRank, list[int]]) -> bool:
     return dealer_hand[0].value >= HandRank.ONE_PAIR.value
 
 
-
 class GamePhase(Enum):
-    WAITING_FOR_BET  = auto()  
-    PRE_FLOP         = auto()   
-    FLOP             = auto()   
-    SHOWDOWN         = auto()   
-    GAME_OVER        = auto()   
+    WAITING_FOR_BET = auto()
+    PRE_FLOP = auto()
+    FLOP = auto()
+    SHOWDOWN = auto()
+    GAME_OVER = auto()
 
 
 class GameResult(Enum):
-    PLAYER_WINS         = auto()
-    DEALER_WINS         = auto()
-    TIE                 = auto()
-    DEALER_NO_QUALIFY   = auto()   
+    PLAYER_WINS = auto()
+    DEALER_WINS = auto()
+    TIE = auto()
+    DEALER_NO_QUALIFY = auto()
 
 
 class PokerGame:
@@ -211,7 +216,6 @@ class PokerGame:
         self.last_result: GameResult | None = None
         self._deck: Deck = Deck()
         self.result_message: str = ""
-
 
     def place_ante(self, amount: int) -> bool:
         """
@@ -242,9 +246,11 @@ class PokerGame:
         if self.phase != GamePhase.FLOP:
             raise RuntimeError("Cannot bet in current phase.")
         if self.chips < self.ante:
-            self.result_message = "No tienes fichas suficientes para apostar. Recarga o retírate."
+            self.result_message = (
+                "No tienes fichas suficientes para apostar. Recarga o retírate."
+            )
             return None
-        self.chips -= self.ante       
+        self.chips -= self.ante
         self.turn_river = self.community[3:]
         self.phase = GamePhase.SHOWDOWN
         return self._settle()
@@ -279,16 +285,16 @@ class PokerGame:
         self._deck.shuffle()
         self.player_hand = self._deck.deal(2)
         self.dealer_hand = self._deck.deal(2)
-        self.community   = self._deck.deal(5)
-        self.flop        = []
-        self.turn_river  = []
+        self.community = self._deck.deal(5)
+        self.flop = []
+        self.turn_river = []
 
     def _settle(self) -> GameResult:
         player_eval = best_hand_from(self.player_hand, self.community)
         dealer_eval = best_hand_from(self.dealer_hand, self.community)
 
         if not dealer_qualifies(dealer_eval):
-            self.chips += self.ante + self.ante  
+            self.chips += self.ante + self.ante
             self.last_result = GameResult.DEALER_NO_QUALIFY
             self.result_message = (
                 f"Dealer doesn't qualify ({dealer_eval[0].name.replace('_', ' ').title()}). "
@@ -299,7 +305,7 @@ class PokerGame:
         cmp = compare_hands(player_eval, dealer_eval)
 
         if cmp == 1:
-            self.chips += self.ante * 4  
+            self.chips += self.ante * 4
             self.last_result = GameResult.PLAYER_WINS
             self.result_message = (
                 f"You win! {player_eval[0].name.replace('_', ' ').title()} "

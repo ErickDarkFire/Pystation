@@ -46,7 +46,7 @@ Recibes 2 cartas privadas (hole cards). El crupier también recibe 2 cartas, per
 - **BET** — Paga una cantidad adicional igual a tu ante para continuar. Las 2 cartas comunitarias restantes (turn y river) serán reveladas.
 - **FOLD** — Te retiras y pierdes tu ante. La ronda termina de inmediato.
 
-**4. Showdown** 
+**4. Showdown**
 Todas las cartas se revelan. La mejor mano de 5 cartas de cada jugador, formada con sus 2 cartas privadas y las 5 comunitarias, determina al ganador.
 
 ---
