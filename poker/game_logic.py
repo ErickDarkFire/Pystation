@@ -297,7 +297,8 @@ class PokerGame:
             self.chips += self.ante + self.ante
             self.last_result = GameResult.DEALER_NO_QUALIFY
             self.result_message = (
-                f"Dealer doesn't qualify ({dealer_eval[0].name.replace('_', ' ').title()}). "
+                f"Dealer doesn't qualify ({dealer_eval[0]
+                                           .name.replace('_', ' ').title()}). "
                 f"Ante pays 1:1, bet is a push!"
             )
             return self.last_result

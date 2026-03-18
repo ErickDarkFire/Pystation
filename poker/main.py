@@ -438,11 +438,14 @@ class CasinoPokerApp:
 
     def _draw_hint(self):
         hints = {
-            GamePhase.WAITING_FOR_BET: "Usa − / + o escribe un número para tu ante, luego presiona DEAL.",
+            GamePhase.WAITING_FOR_BET: "Usa − / + o escribe un número para tu ante,"
+            " luego presiona DEAL.",
             GamePhase.PRE_FLOP: "Cartas repartidas.  Revelando el flop…",
-            GamePhase.FLOP: "BET para ver el turn y river (cuesta un ante), o FOLD para retirarte.",
+            GamePhase.FLOP: "BET para ver el turn y river (cuesta un ante),"
+            " o FOLD para retirarte.",
             GamePhase.SHOWDOWN: "Ronda terminada.  Presiona NEW ROUND para continuar.",
-            GamePhase.GAME_OVER: "¡Sin fichas!  Presiona RECHARGE ($500) para seguir jugando.",
+            GamePhase.GAME_OVER: "¡Sin fichas!  Presiona RECHARGE"
+            " ($500) para seguir jugando.",
         }
         text = hints.get(self.game.phase, "")
         hint = self.fonts["small"].render(text, True, (168, 212, 168))
