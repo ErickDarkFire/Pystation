@@ -296,7 +296,7 @@ class PokerGame:
         if not dealer_qualifies(dealer_eval):
             self.chips += self.ante + self.ante
             self.last_result = GameResult.DEALER_NO_QUALIFY
-            hand_name = dealer_eval[0].name.replace('_', ' ').title()
+            hand_name = dealer_eval[0].name.replace("_", " ").title()
             self.result_message = (
                 f"Dealer doesn't qualify ({hand_name}). "
                 f"Ante pays 1:1, bet is a push!"
