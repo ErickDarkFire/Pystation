@@ -147,3 +147,7 @@ minijuegos-pygame/
 │
 └── coverage/
 ```
+
+
+## Pantallas
+![Poker](mockups/poker.png)
