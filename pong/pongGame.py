@@ -68,7 +68,7 @@ def mover_jugadores():
         jugador2.y += vel_jugador
 
 def mover_pelota():
-    global vel_pelota_x, vel_pelota_y, score1, score2, game_over, ganador
+    global vel_pelota_x, vel_pelota_y, score1, score2, game_over, ganador, colorGanador
     pelota.x += vel_pelota_x
     pelota.y += vel_pelota_y
 
@@ -87,9 +87,11 @@ def mover_pelota():
     if score1 == 5:
         game_over = True
         ganador = "Jugador 1 gana"
+        colorGanador = ROJO
     if score2 == 5:
         game_over = True
         ganador = "Jugador 2 gana"
+        colorGanador = AZUL
 
 
 def dibujar():
@@ -105,7 +107,7 @@ def dibujar():
     ventana.blit(texto2, (ANCHO // 2 - 80, 20))
 
     if game_over:
-        texto_ganador = fuente_ganador.render(ganador, True, BLANCO)
+        texto_ganador = fuente_ganador.render(ganador, True, colorGanador)
         texto_reinicio = fuente.render("Presiona tecla R para reiniciar", True, BLANCO)
         ventana.blit(
             texto_ganador,
