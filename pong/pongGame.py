@@ -17,7 +17,7 @@ pygame.display.set_caption("Pong")
 fuente = pygame.font.SysFont("Arial", 40)
 fuente_ganador = pygame.font.SysFont("Arial", 50)
 clock = pygame.time.Clock()
-#Jugadoress
+# Jugadoress
 jugador_ancho = 20
 jugador_alto = 120
 
@@ -25,18 +25,19 @@ jugador1 = pygame.Rect(700, ALTO // 2 - jugador_alto // 2, jugador_ancho, jugado
 jugador2 = pygame.Rect(40, ALTO // 2 - jugador_alto // 2, jugador_ancho, jugador_alto)
 vel_jugador = 7
 
-#Pelota
+# Pelota
 pelota_size = 30
 pelota = pygame.Rect(ANCHO // 2, ALTO // 2, pelota_size, pelota_size)
 vel_pelota_x = random.choice([5, -5])
 vel_pelota_y = random.choice([5, -5])
 
-#Marcador
+# Marcador
 score1 = 0
 score2 = 0
 
 game_over = False
 ganador = ""
+colorGanador = BLANCO
 
 def reiniciar_pelota():
     global vel_pelota_x, vel_pelota_y
@@ -44,6 +45,7 @@ def reiniciar_pelota():
     pelota.y = ALTO // 2
     vel_pelota_x = random.choice([5, -5])
     vel_pelota_y = random.choice([5, -5])
+    
 
 def reiniciar_juego():
     global score1, score2, game_over, ganador
@@ -56,6 +58,7 @@ def reiniciar_juego():
     jugador2.y = ALTO // 2 - jugador_alto // 2
     reiniciar_pelota()
 
+
 def mover_jugadores():
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_UP] and jugador1.y > 0:
@@ -66,6 +69,7 @@ def mover_jugadores():
         jugador2.y -= vel_jugador
     if teclas[pygame.K_s] and jugador2.y < ALTO - jugador_alto:
         jugador2.y += vel_jugador
+
 
 def mover_pelota():
     global vel_pelota_x, vel_pelota_y, score1, score2, game_over, ganador, colorGanador
