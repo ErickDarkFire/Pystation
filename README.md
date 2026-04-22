@@ -151,3 +151,4 @@ minijuegos-pygame/
 
 ## Pantallas
 ![Poker](mockups/poker.png)
+![Tic_tac_toe](mockups/tictactoe.png)
