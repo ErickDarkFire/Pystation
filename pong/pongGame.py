@@ -39,13 +39,14 @@ game_over = False
 ganador = ""
 colorGanador = BLANCO
 
+
 def reiniciar_pelota():
     global vel_pelota_x, vel_pelota_y
     pelota.x = ANCHO // 2
     pelota.y = ALTO // 2
     vel_pelota_x = random.choice([5, -5])
     vel_pelota_y = random.choice([5, -5])
-    
+
 
 def reiniciar_juego():
     global score1, score2, game_over, ganador
@@ -114,14 +115,14 @@ def dibujar():
         texto_ganador = fuente_ganador.render(ganador, True, colorGanador)
         texto_reinicio = fuente.render("Presiona tecla R para reiniciar", True, BLANCO)
         ventana.blit(
-            texto_ganador,
-            (ANCHO // 2 - texto_ganador.get_width() // 2, ALTO // 2 - 50)
+            texto_ganador, (ANCHO // 2 - texto_ganador.get_width() // 2, ALTO // 2 - 50)
         )
         ventana.blit(
             texto_reinicio,
-            (ANCHO // 2 - texto_reinicio.get_width() // 2, ALTO // 2 + 20)
+            (ANCHO // 2 - texto_reinicio.get_width() // 2, ALTO // 2 + 20),
         )
     pygame.display.update()
+
 
 while True:
     for event in pygame.event.get():
