@@ -426,12 +426,6 @@ def Escoger_color():
     return colores[cs]
 
 
-def Escoger_color():
-    # Obtenemos un numero random para asignarle el color al fondo
-    cs = random.randint(0, len(colores) - 1)
-    return colores[cs]
-
-
 # Usamos la funcion para obtener un color de fondo random en cada partida
 color_selec = Escoger_color()
 
@@ -503,7 +497,7 @@ while True:
     if not win:
         coord_tablero = Hover(x_mouse, y_mouse)
 
-    if clic == True and not win:
+    if clic and not win:
         print(tablero[coord_tablero[0]][coord_tablero[1]])
         clic = False
         if tablero[coord_tablero[0]][coord_tablero[1]] == "":
@@ -531,7 +525,7 @@ while True:
     screen.blit(p2_wins_text, (ancho_marco - 190, (alto // 2) + 50))
 
     screen.blit(total_games_text, (ancho_marco - 190, alto - 50))
-    ### ----- ZONA DE DIBUJO
+    # ----- ZONA DE DIBUJO
 
     # Revisamos quien gano
     if not win:
