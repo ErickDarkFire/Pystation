@@ -34,6 +34,36 @@ class TestHand(unittest.TestCase):
         self.assertEqual(get_strategy_advice(soft18, Card("♦", "2")), "STAND")
         self.assertEqual(get_strategy_advice(soft18, Card("♦", "9")), "HIT")
 
+        soft19 = [Card("♠", "A"), Card("♥", "8")]
+        self.assertEqual(get_strategy_advice(soft19, Card("♦", "2")), "STAND")
+
+    def test_get_strategy_advice_more_branches(self):
+        # 17+
+        hand17 = [Card("♠", "10"), Card("♥", "7")]
+        self.assertEqual(get_strategy_advice(hand17, Card("♦", "2")), "STAND")
+
+        # 13-16 vs dealer > 6
+        hand14 = [Card("♠", "10"), Card("♥", "4")]
+        self.assertEqual(get_strategy_advice(hand14, Card("♦", "7")), "HIT")
+
+        # 12 vs 2, 3
+        hand12 = [Card("♠", "10"), Card("♥", "2")]
+        self.assertEqual(get_strategy_advice(hand12, Card("♦", "2")), "HIT")
+        self.assertEqual(get_strategy_advice(hand12, Card("♦", "3")), "HIT")
+
+        # 10 vs 10
+        hand10 = [Card("♠", "6"), Card("♥", "4")]
+        self.assertEqual(get_strategy_advice(hand10, Card("♦", "10")), "HIT")
+
+        # 9 vs 2
+        hand9 = [Card("♠", "5"), Card("♥", "4")]
+        self.assertEqual(get_strategy_advice(hand9, Card("♦", "2")), "HIT")
+        self.assertEqual(get_strategy_advice(hand9, Card("♦", "3")), "DOUBLE")
+
+        # 8
+        hand8 = [Card("♠", "5"), Card("♥", "3")]
+        self.assertEqual(get_strategy_advice(hand8, Card("♦", "5")), "HIT")
+
 
 if __name__ == "__main__":
     unittest.main()

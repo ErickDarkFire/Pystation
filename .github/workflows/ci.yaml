@@ -20,14 +20,19 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install flake8
+          pip install flake8 coverage
 
       - name: Run linter
         run: |
           flake8 .
 
-      - name: Run tests
+      - name: Run tests and Check Coverage (Per Game)
         run: |
-          #Pruebas blackjack
-          python -m unittest discover -s blackjack -t blackjack
-          #Aqui agregan pruebas de cada juego
+          echo "Reporte de Cobertura: Blackjack"
+          coverage run --source=blackjack -m unittest discover -s blackjack -t blackjack
+          coverage report -m --fail-under=85
+
+          # Copien esto para nuevos juegos EJEMPLO
+          # echo "=== Reporte de Cobertura: Poker ==="
+          # coverage run --source=poker -m unittest discover -s poker -t poker
+          # coverage report -m --fail-under=85
