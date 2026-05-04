@@ -16,6 +16,7 @@ Dos jugadores controlan una barra cada uno y deben evitar que la pelota salga de
 
 - **Jugador izquierdo:** `W` y `S`
 - **Jugador derecho:** `flecha arriba` y `flecha abajo`
+- **Pausar partida:** `P`
 - **Reiniciar partida:** `R`
 
 ## Reglas
