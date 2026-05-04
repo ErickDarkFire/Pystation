@@ -20,7 +20,6 @@ class TestShoe(unittest.TestCase):
         s.cards.clear()
         self.assertEqual(len(s.cards), 0)
         card = s.draw_card()
-        # It should rebuild and then pop one
         self.assertEqual(len(s.cards), (6 * 52) - 1)
         self.assertIsNotNone(card)
 

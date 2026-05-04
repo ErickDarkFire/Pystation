@@ -1,3 +1,4 @@
+import os
 import pygame
 
 WIDTH, HEIGHT = 1280, 800
@@ -21,6 +22,16 @@ pygame.font.init()
 
 
 def get_font(size, bold=False):
+    if os.environ.get("SDL_VIDEODRIVER") == "dummy":
+
+        class DummyFont:
+            def render(self, *args, **kwargs):
+                return pygame.Surface((10, 10))
+
+            def get_rect(self, *args, **kwargs):
+                return pygame.Rect(0, 0, 10, 10)
+
+        return DummyFont()
     fonts = ["arial", "helvetica", "calibri", "verdana"]
     return pygame.font.SysFont(pygame.font.match_font(fonts) or None, size, bold=bold)
 

@@ -8,7 +8,7 @@ Es un juego desarrollado con Pygame basado en el juego de casino Craps, el objet
 
 ## Requisitos
 
-Para poder ejecutar el juego requieres: 
+Para poder ejecutar el juego requieres:
 - Python 3.12.3 o posterior
 - Pygame 2.6.0 o posterior
 
@@ -25,4 +25,3 @@ Para salir del juego se debe de pulsar el botón de Escape
 ## Características
 
 El juego tiene dos características a tomar en cuenta, la primera es que el juego tiene un contador de partidas ganadas y partidas perdidas, la segunda es que al inicio empiezas con $500, si llegas a perder todo tu dinero el juego te indica que estás en bancarrota, pero te rellena tu cuenta con otros $500 para que puedas seguir jugando.
-
