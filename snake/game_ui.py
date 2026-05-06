@@ -8,7 +8,7 @@ and is called from Game.draw() via the _ui module reference.
 import pygame
 import math
 
-from snake_game import (
+from snake import (
     WINDOW,
     TILE_SIZE,
     GAME_MODES,
