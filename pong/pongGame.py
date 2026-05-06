@@ -30,26 +30,11 @@ fuente_pausa = pygame.font.SysFont("Arial", 45)
 clock = pygame.time.Clock()
 sonidos = Sonidos()
 
-jugador1 = pygame.Rect(
-    700,
-    ALTO // 2 - JUGADOR_ALTO // 2,
-    JUGADOR_ANCHO,
-    JUGADOR_ALTO
-)
+jugador1 = pygame.Rect(700, ALTO // 2 - JUGADOR_ALTO // 2, JUGADOR_ANCHO, JUGADOR_ALTO)
 
-jugador2 = pygame.Rect(
-    40,
-    ALTO // 2 - JUGADOR_ALTO // 2,
-    JUGADOR_ANCHO,
-    JUGADOR_ALTO
-)
+jugador2 = pygame.Rect(40, ALTO // 2 - JUGADOR_ALTO // 2, JUGADOR_ANCHO, JUGADOR_ALTO)
 
-pelota = pygame.Rect(
-    ANCHO // 2,
-    ALTO // 2,
-    PELOTA_SIZE,
-    PELOTA_SIZE
-)
+pelota = pygame.Rect(ANCHO // 2, ALTO // 2, PELOTA_SIZE, PELOTA_SIZE)
 
 vel_pelota_x = random.choice([5, -5])
 vel_pelota_y = random.choice([5, -5])
@@ -278,13 +263,7 @@ def mover_pelota():
 
 def dibujar_cancha():
     ventana.fill(NEGRO)
-    pygame.draw.line(
-        ventana,
-        BLANCO,
-        (ANCHO // 2, 0),
-        (ANCHO // 2, ALTO),
-        3
-    )
+    pygame.draw.line(ventana, BLANCO, (ANCHO // 2, 0), (ANCHO // 2, ALTO), 3)
 
 
 def dibujar_jugadores():
@@ -309,13 +288,11 @@ def dibujar_game_over():
     texto_reinicio = fuente.render("Presiona R para reiniciar", True, BLANCO)
 
     ventana.blit(
-        texto_ganador,
-        (ANCHO // 2 - texto_ganador.get_width() // 2, ALTO // 2 - 50)
+        texto_ganador, (ANCHO // 2 - texto_ganador.get_width() // 2, ALTO // 2 - 50)
     )
 
     ventana.blit(
-        texto_reinicio,
-        (ANCHO // 2 - texto_reinicio.get_width() // 2, ALTO // 2 + 20)
+        texto_reinicio, (ANCHO // 2 - texto_reinicio.get_width() // 2, ALTO // 2 + 20)
     )
 
 
@@ -324,13 +301,11 @@ def dibujar_pausa():
     texto_continuar = fuente.render("Presiona P para continuar", True, BLANCO)
 
     ventana.blit(
-        texto_pausa,
-        (ANCHO // 2 - texto_pausa.get_width() // 2, ALTO // 2 - 50)
+        texto_pausa, (ANCHO // 2 - texto_pausa.get_width() // 2, ALTO // 2 - 50)
     )
 
     ventana.blit(
-        texto_continuar,
-        (ANCHO // 2 - texto_continuar.get_width() // 2, ALTO // 2 + 20)
+        texto_continuar, (ANCHO // 2 - texto_continuar.get_width() // 2, ALTO // 2 + 20)
     )
 
 
@@ -386,4 +361,3 @@ def ejecutar_juego():
 
 if __name__ == "__main__":
     ejecutar_juego()
-    
