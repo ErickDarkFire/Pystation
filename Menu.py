@@ -80,7 +80,7 @@ def dibujar_menu():
         y = MARGIN_Y + fila * SPACING_Y
         
         # Crear un rect para detección de mouse
-        area_rect = pygame.Rect(x, y, LOGO_SIZE[0], LOGO_SIZE[1] + 40)
+        area_rect = pygame.Rect(x, y-35, LOGO_SIZE[0], LOGO_SIZE[1] + 35)
         juegos_data[i]["rect"] = area_rect
         
         # Efecto de selección (Visual)
