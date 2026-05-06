@@ -27,7 +27,7 @@ class CrapsGame:
     def cargar_recursos(self):
         imagenes = []
         for i in range(1, 7):
-            path = os.path.join("craps", "imagenes_craps", f"cube_{i}.jpg")
+            path = os.path.join("craps", "img", f"cube_{i}.jpg")
             img = pygame.image.load(path).convert_alpha()
             imagenes.append(pygame.transform.scale(img, (100, 100)))
         return imagenes
