@@ -1,5 +1,6 @@
 import sys
 import pygame
+import os
 from game_logic import (
     Card,
     SUIT_SYMBOLS,
@@ -162,6 +163,8 @@ class CasinoPokerApp:
         self.screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
         pygame.display.set_caption("Casino Poker — Ante Game")
         self.clock = pygame.time.Clock()
+        logo = pygame.image.load(os.path.join("poker", "img", "logo.png")).convert()
+        pygame.display.set_icon(logo)
 
         self.fonts = {
             "title": pygame.font.SysFont("Georgia", 34, bold=True),

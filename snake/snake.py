@@ -1,6 +1,7 @@
 """Snake Deluxe v2.0 — main game module with logic, entities, and input handling."""
 
 import pygame
+import os
 import sys
 import math
 from random import randrange, random
@@ -500,6 +501,9 @@ class Game:
             self.screen = pygame.display.set_mode([WINDOW, WINDOW])
             pygame.display.set_caption("Snake Deluxe v2.0")
             self.clock = pygame.time.Clock()
+            # Cargar imagen del logo
+            logo = pygame.image.load(os.path.join("snake", "img", "logo.png")).convert()
+            pygame.display.set_icon(logo)
             self._init_fonts()
             self._build_ui()
 

@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 import random
 from sound_manager import Sonidos
 
@@ -22,6 +23,9 @@ PUNTOS_GANAR = 5
 
 ventana = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Pong")
+
+logo = pygame.image.load(os.path.join("pong", "img", "logo.png")).convert()
+pygame.display.set_icon(logo)
 
 fuente = pygame.font.SysFont("Arial", 40)
 fuente_ganador = pygame.font.SysFont("Arial", 50)

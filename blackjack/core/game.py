@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 import core.settings as st  # <-- Cambiado para cumplir con Flake8
 from models.shoe import Shoe
 from models.player import Player, Dealer
@@ -22,6 +23,8 @@ class Game:
         # Usando st.WIDTH y st.HEIGHT
         self.screen = pygame.display.set_mode((st.WIDTH, st.HEIGHT))
         pygame.display.set_caption("Blackjack Engineering Simulator")
+        logo = pygame.image.load(os.path.join("blackjack", "img", "logo.png")).convert()
+        pygame.display.set_icon(logo)
         self.clock = pygame.time.Clock()
         self.shoe = Shoe()
         self.player = Player()

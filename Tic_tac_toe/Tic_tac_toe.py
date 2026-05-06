@@ -59,10 +59,8 @@ screen = pygame.display.set_mode(size)
 
 # Cargar imagen del logo
 logo = pygame.image.load(os.path.join("Tic_tac_toe", "img", "logo.png")).convert()
-
 # Quitar fondo negro a la imagen
 logo.set_colorkey(BLACK)
-
 # Establecer el icono de la ventana
 pygame.display.set_icon(logo)
 
