@@ -1,7 +1,9 @@
 # Pong en Pygame
+
 <img src="https://i.imgur.com/ZEK1fBQ.png" alt="Menú de inicio" width="500">
 
 ## Descripción del proyecto
+
 Este pequeño proyecto es un juego sencillo de Pong realizado con Python y Pygame.
 Dos jugadores controlan una barra cada uno y deben evitar que la pelota salga de su lado de la pantalla.
 
@@ -16,6 +18,7 @@ Dos jugadores controlan una barra cada uno y deben evitar que la pelota salga de
 
 - **Jugador izquierdo:** `W` y `S`
 - **Jugador derecho:** `flecha arriba` y `flecha abajo`
+- **Pausar partida:** `P`
 - **Reiniciar partida:** `R`
 
 ## Reglas
