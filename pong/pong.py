@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import json
 import random
 from sound_manager import Sonidos
 
@@ -21,10 +22,13 @@ VEL_JUGADOR = 7
 PELOTA_SIZE = 30
 PUNTOS_GANAR = 5
 
+ESTADO_TEST_FILE = os.getenv("PONG_STATE_FILE")
+
 ventana = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Pong")
 
-logo = pygame.image.load(os.path.join("pong", "img", "logo.png")).convert()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+logo = pygame.image.load(os.path.join(BASE_DIR, "img", "logo.png")).convert()
 pygame.display.set_icon(logo)
 
 fuente = pygame.font.SysFont("Arial", 40)
@@ -51,6 +55,32 @@ pausado = False
 
 ganador = ""
 color_ganador = BLANCO
+
+
+def obtener_estado_juego():
+    """
+    Esta funcion tiene el fin de ayudar con el testeo de la UI
+    """
+    return {
+        "score1": score1,
+        "score2": score2,
+        "game_over": game_over,
+        "pausado": pausado,
+        "ganador": ganador,
+        "jugador1_y": jugador1.y,
+        "jugador2_y": jugador2.y,
+        "pelota_x": pelota.x,
+        "pelota_y": pelota.y
+    }
+
+
+def guardar_estado_test():
+    """
+    Esta funcion tiene el fin de ayudar con el testeo de la UI
+    """
+    if ESTADO_TEST_FILE:
+        with open(ESTADO_TEST_FILE, "w", encoding="utf-8") as archivo:
+            json.dump(obtener_estado_juego(), archivo)
 
 
 def obtener_posicion_centro_jugador():
@@ -325,6 +355,7 @@ def dibujar():
     if pausado:
         dibujar_pausa()
 
+    guardar_estado_test()
     pygame.display.update()
 
 
