@@ -1,0 +1,15 @@
+[run]
+source = snake,game_ui,sound_manager
+omit =
+    tests/*
+    integration_tests/*
+    system_tests/*
+    */site-packages/*
+
+[report]
+fail_under = 50
+show_missing = true
+skip_covered = false
+
+[html]
+directory = coverage_html_report
