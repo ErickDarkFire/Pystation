@@ -83,7 +83,7 @@ Para ejecutar las pruebas:
 
 ```bash
 py -m coverage run -m unittest discover -s tests -p "test_*.py"
-py -m coverage reportpy -m coverage report
+py -m coverage report
 ```
 
 ### Para ejecutar las pruebas de sistema BDD:
