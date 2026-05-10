@@ -34,13 +34,60 @@ Dos jugadores controlan una barra cada uno y deben evitar que la pelota salga de
 
 ## Tecnologías Utilizadas
 
-- **Python**: Lenguaje de programación principal empleado
-- **Pygame**: Biblioteca utilizada para el motor gráfico
-- **Pytest / Coverage**: Herramientas para la ejecución de pruebas unitarias y garantizar una alta cobertura de código en el proyecto.
+- **Python**: Lenguaje principal del proyecto.
+- **Pygame**: Biblioteca utilizada para crear la ventana, gráficos, eventos y lógica del juego.
+- **unittest**: Framework estándar de Python utilizado para las pruebas unitarias e integración.
+- **coverage.py**: Herramienta utilizada para medir la cobertura de código.
+- **Behave**: Herramienta utilizada para escribir pruebas de sistema con BDD.
+- **PyDirectInput**: Herramienta utilizada para simular entradas de teclado en la ventana del juego.
+- **Pylint**: Linter utilizado para análisis estático del código.
+- **GitHub Actions**: Herramienta utilizada para ejecutar automáticamente pruebas y análisis en cada pull request.
 
 ## Instalación
 
-Primero instala Pygame con:
+Primero clona el repositorio:
 
 ```bash
-pip install pygame
+git clone <link-del-repositorio>
+cd pong
+```
+
+Luego instala las dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+"o" usa para instalar dependencias
+```bash
+pip install pygame coverage behave pydirectinput pygetwindow pylint
+```
+
+## Cómo correr la aplicación
+
+Para ejecutar el juego:
+
+```bash
+py pong.py
+```
+
+## Pruebas
+
+El proyecto cuenta con pruebas unitarias, pruebas de integración y pruebas de sistema.
+
+### Pruebas unitarias e integración
+
+Las pruebas unitarias validan funciones específicas del juego, como movimiento de jugadores, reinicio de marcador, pausa, rebotes, puntuación y declaración de ganador.
+
+Para ejecutar las pruebas:
+
+```bash
+py -m coverage run -m unittest discover -s tests -p "test_*.py"
+py -m coverage report
+```
+
+### Para ejecutar las pruebas de sistema BDD:
+
+```bash
+py -m behave --no-capture
+```
