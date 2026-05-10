@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 os.environ["SDL_AUDIODRIVER"] = "dummy"
 
-from sound_manager import Sonidos
+from sound_manager import Sonidos  # noqa: E402
 
 
 class TestSoundManager(unittest.TestCase):

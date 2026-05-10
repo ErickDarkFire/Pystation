@@ -3,9 +3,9 @@ import os
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 os.environ["SDL_AUDIODRIVER"] = "dummy"
 
-import unittest
-import pygame
-import pong as juego
+import unittest  # noqa: E402
+import pygame  # noqa: E402
+import pong as juego  # noqa: E402
 
 
 class SonidosTest:
