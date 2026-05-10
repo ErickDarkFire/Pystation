@@ -83,7 +83,6 @@ class TestPongLogic(unittest.TestCase):
 
         self.assertEqual(juego.pelota.x, 105)
 
-    
     def test_mover_posicion_pelota_y(self):
         juego.pelota.y = 100
         juego.vel_pelota_y = -5
@@ -161,7 +160,6 @@ class TestPongLogic(unittest.TestCase):
 
         self.assertEqual(juego.pelota.x, 100)
         self.assertEqual(juego.pelota.y, 100)
-        
 
     @classmethod
     def tearDownClass(cls):

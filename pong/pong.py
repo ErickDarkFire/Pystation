@@ -70,7 +70,7 @@ def obtener_estado_juego():
         "jugador1_y": jugador1.y,
         "jugador2_y": jugador2.y,
         "pelota_x": pelota.x,
-        "pelota_y": pelota.y
+        "pelota_y": pelota.y,
     }
 
 

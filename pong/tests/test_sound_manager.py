@@ -22,10 +22,7 @@ class TestSoundManager(unittest.TestCase):
     @patch("os.path.exists", return_value=True)
     @patch("pygame.mixer.Sound")
     def test_cargar_sonido_existente_regresa_sonido(
-        self,
-        mock_sound,
-        mock_exists,
-        mock_get_init
+        self, mock_sound, mock_exists, mock_get_init
     ):
         sonido_mock = MagicMock()
         mock_sound.return_value = sonido_mock

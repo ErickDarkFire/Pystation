@@ -12,8 +12,7 @@ import time
 from pathlib import Path
 
 import pydirectinput
-from behave import given, then, when  
-
+from behave import given, then, when
 
 PROCESOS_ABIERTOS = []
 
@@ -142,7 +141,7 @@ def validar_movimiento_vertical(posicion_anterior, posicion_actual, direccion):
     raise ValueError(f"Dirección no válida: {direccion}")
 
 
-@given("que abro el juego Pong")  
+@given("que abro el juego Pong")
 def step_abrir_juego(context):
     """
     Ejecuta el juego Pong como un proceso independiente.
@@ -151,8 +150,7 @@ def step_abrir_juego(context):
     archivo_juego = raiz / "pong.py"
 
     context.archivo_estado = (
-        Path(tempfile.gettempdir())
-        / f"pong_estado_{os.getpid()}_{time.time_ns()}.json"
+        Path(tempfile.gettempdir()) / f"pong_estado_{os.getpid()}_{time.time_ns()}.json"
     )
 
     env = os.environ.copy()
@@ -160,9 +158,7 @@ def step_abrir_juego(context):
     env["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 
     context.proceso = subprocess.Popen(
-        [sys.executable, str(archivo_juego)],
-        cwd=raiz,
-        env=env
+        [sys.executable, str(archivo_juego)], cwd=raiz, env=env
     )
 
     PROCESOS_ABIERTOS.append(context.proceso)
@@ -172,16 +168,14 @@ def step_abrir_juego(context):
 
     if not esperar_archivo_estado(context.archivo_estado):
         cerrar_proceso(context.proceso)
-        raise AssertionError(
-            "El juego abrió, pero no generó el archivo de estado."
-        )
+        raise AssertionError("El juego abrió, pero no generó el archivo de estado.")
 
     enfocar_ventana_pong()
 
     assert context.proceso.poll() is None
 
 
-@when('presiono la tecla "{tecla}"')  
+@when('presiono la tecla "{tecla}"')
 def step_presionar_tecla(context, tecla):
     """
     Presiona una tecla dentro de la ventana del juego.
@@ -207,7 +201,7 @@ def step_mantener_tecla(context, tecla, segundos):
     time.sleep(0.4)
 
 
-@then("el juego debe quedar pausado")  
+@then("el juego debe quedar pausado")
 def step_juego_pausado(context):
     """
     Verifica que el juego quede pausado.
@@ -215,7 +209,7 @@ def step_juego_pausado(context):
     esperar_condicion(context, lambda estado: estado["pausado"] is True)
 
 
-@then("el juego debe continuar")  
+@then("el juego debe continuar")
 def step_juego_continua(context):
     """
     Verifica que el juego no esté pausado.
@@ -244,8 +238,4 @@ def step_jugador_debe_moverse(context, jugador, direccion):
     posicion_anterior = obtener_posicion_jugador(context.estado_anterior, jugador)
     posicion_actual = obtener_posicion_jugador(estado_actual, jugador)
 
-    validar_movimiento_vertical(
-        posicion_anterior,
-        posicion_actual,
-        direccion
-    )
+    validar_movimiento_vertical(posicion_anterior, posicion_actual, direccion)
