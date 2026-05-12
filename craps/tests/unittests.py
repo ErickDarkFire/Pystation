@@ -1,8 +1,7 @@
 import os
 import sys
 import unittest
-from unittest.mock import patch, MagicMock
-import pygame
+from unittest.mock import patch
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 

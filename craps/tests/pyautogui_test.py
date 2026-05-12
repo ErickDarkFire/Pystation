@@ -3,7 +3,6 @@ import pyautogui
 import time
 import os
 import sys
-import pygame
 
 def probar_juego():
     try:
@@ -17,10 +16,7 @@ def probar_juego():
         print("Iniciando el juego...")
         # 3. 'sys.executable' detecta automáticamente el comando correcto de Python de tu sistema
         # 4. 'cwd' asegura que el juego encuentre su carpeta de imágenes internas
-        proceso_juego = subprocess.Popen(
-            [sys.executable, ruta_juego],
-            cwd=raiz_proyecto
-        )
+        subprocess.Popen([sys.executable, ruta_juego], cwd=raiz_proyecto)
         # 2. TIEMPO DE ESPERA CRUCIAL
         # Esperamos 2.5 segundos para que Pygame cargue la ventana y tome el foco
         time.sleep(2.5)
