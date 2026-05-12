@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SDL_VIDEODRIVER: dummy
+      SDL_AUDIODRIVER: dummy
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,19 +24,33 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install flake8 coverage
+          pip install flake8 coverage pytest pytest-cov
 
       - name: Run linter
         run: |
           flake8 .
 
-      - name: Run tests and Check Coverage (Per Game)
+      - name: Coverage — Blackjack
         run: |
-          echo "Reporte de Cobertura: Blackjack"
+          echo "=== Blackjack ==="
           coverage run --source=blackjack -m unittest discover -s blackjack -t blackjack
           coverage report -m --fail-under=85
 
-          # Copien esto para nuevos juegos EJEMPLO
-          # echo "=== Reporte de Cobertura: Poker ==="
-          # coverage run --source=poker -m unittest discover -s poker -t poker
-          # coverage report -m --fail-under=85
+      - name: Coverage — Craps
+        working-directory: craps
+        run: |
+          echo "=== Craps ==="
+          coverage run --source=. tests/unittests.py
+          coverage report -m
+
+      - name: Coverage — Poker
+        working-directory: poker
+        run: |
+          echo "=== Poker ==="
+          pytest tests/ --cov=. --cov-report=term-missing
+
+      - name: Coverage — Pong
+        run: |
+          echo "=== Pong ==="
+          coverage run --source=pong -m unittest discover -s pong/tests -t pong
+          coverage report -m
