@@ -145,7 +145,7 @@ def best_hand_from(
     hole_cards: list[Card], community_cards: list[Card]
 ) -> tuple[HandRank, list[int]]:
     """
-   Devuelve la mejor mano posible
+    Devuelve la mejor mano posible
     """
     all_cards = hole_cards + community_cards
     if len(all_cards) < 5:
@@ -156,7 +156,7 @@ def best_hand_from(
         result = evaluate_5card_hand(list(combo))
         if best is None or compare_hands(result, best) > 0:
             best = result
-    return best  
+    return best
 
 
 def compare_hands(

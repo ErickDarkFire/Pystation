@@ -298,7 +298,7 @@ class TestIsStraight:
             ("7", "Spades"),
             ("8", "Hearts"),
         )
-        assert not _is_straight(cards) 
+        assert not _is_straight(cards)
 
 
 class TestRankCounts:
