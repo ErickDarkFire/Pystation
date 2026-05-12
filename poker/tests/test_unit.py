@@ -68,7 +68,6 @@ class TestCard:
         actual = [Card(r, "Spades").value for r in RANKS]
         assert actual == expected
 
-    # --- Ordenamiento de valores ---
     def test_value_ordering_ascending(self):
         assert c("2", "Hearts").value < c("5", "Hearts").value < c("A", "Hearts").value
 
@@ -610,7 +609,6 @@ class TestBestHandFrom:
         assert rank == HandRank.STRAIGHT
 
     def test_plays_the_board_when_better(self):
-        # Community has a Royal Flush
         hole = hand(("2", "Clubs"), ("3", "Diamonds"))
         comm = hand(
             ("10", "Hearts"),
@@ -876,10 +874,9 @@ class TestPlayerBet:
 
     def test_bet_deducts_chips(self):
         g = PokerGame(500)
-        g.place_ante(50)  # chips = 450
+        g.place_ante(50)
         g.reveal_flop()
-        g.player_bet()  # chips = 400 (or more if win)
-        # chips must have changed from 450
+        g.player_bet()
         assert g.chips != 500
 
     def test_bet_wrong_phase_raises(self):
@@ -895,7 +892,7 @@ class TestPlayerBet:
 
     def test_bet_insufficient_chips_returns_none(self):
         g = PokerGame(50)
-        g.place_ante(50)  # chips = 0
+        g.place_ante(50)
         g.reveal_flop()
         result = g.player_bet()
         assert result is None
@@ -940,10 +937,10 @@ class TestPlayerFold:
 
     def test_fold_does_not_deduct_extra_chips(self):
         g = PokerGame(500)
-        g.place_ante(50)  # chips = 450
+        g.place_ante(50)
         g.reveal_flop()
         g.player_fold()
-        assert g.chips == 450  # no extra deduction
+        assert g.chips == 450
 
     def test_fold_reveals_turn_river(self):
         g = PokerGame(500)

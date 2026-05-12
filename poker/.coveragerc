@@ -3,7 +3,6 @@ source = .
 omit =
     tests/*
     system_tests/*
-    poker.py
 
 [report]
 show_missing = True
