@@ -11,7 +11,7 @@ class CrapsGame:
         pygame.display.set_caption("Craps")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Arial", 26, bold=True)
-        logo = pygame.image.load(os.path.join("img", "logo.png")).convert() 
+        logo = pygame.image.load(os.path.join("img", "logo.png")).convert()
         pygame.display.set_icon(logo)
 
         self.saldo = 500
