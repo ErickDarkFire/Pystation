@@ -10,7 +10,7 @@ SUIT_SYMBOLS = {"Hearts": "♥", "Diamonds": "♦", "Clubs": "♣", "Spades": "�
 
 
 class Card:
-    """Represents a single playing card."""
+    """Representa una sola carta"""
 
     def __init__(self, rank: str, suit: str):
         if rank not in RANKS:
@@ -36,7 +36,7 @@ class Card:
 
 
 class Deck:
-    """Standard 52-card deck."""
+    """Representa la baraja de 52 cartas"""
 
     def __init__(self):
         self.cards: list[Card] = [Card(r, s) for s in SUITS for r in RANKS]
@@ -93,7 +93,7 @@ def _rank_counts(cards: list[Card]) -> dict[int, int]:
 
 def evaluate_5card_hand(cards: list[Card]) -> tuple[HandRank, list[int]]:
     if len(cards) != 5:
-        raise ValueError("evaluate_5card_hand requires exactly 5 cards.")
+        raise ValueError("evaluate_5card_hand requires exactly 5 cards")
 
     flush = _is_flush(cards)
     straight = _is_straight(cards)
@@ -145,19 +145,18 @@ def best_hand_from(
     hole_cards: list[Card], community_cards: list[Card]
 ) -> tuple[HandRank, list[int]]:
     """
-    Given 2 hole cards and up to 5 community cards, return the best possible
-    5-card hand evaluation.
+   Devuelve la mejor mano posible
     """
     all_cards = hole_cards + community_cards
     if len(all_cards) < 5:
-        raise ValueError("Need at least 5 cards total to evaluate.")
+        raise ValueError("Need at least 5 cards total to evaluate")
 
     best = None
     for combo in combinations(all_cards, 5):
         result = evaluate_5card_hand(list(combo))
         if best is None or compare_hands(result, best) > 0:
             best = result
-    return best  # type: ignore
+    return best  
 
 
 def compare_hands(
@@ -165,8 +164,8 @@ def compare_hands(
     hand_b: tuple[HandRank, list[int]],
 ) -> int:
     """
-    Compare two evaluated hands.
-    Returns:  1 if hand_a wins, -1 if hand_b wins, 0 for a tie.
+    Compara dos manos
+    Devuelve:  1 si hand_a gana, -1 si hand_b gana, 0 si es empate
     """
     rank_a, tb_a = hand_a
     rank_b, tb_b = hand_b
@@ -181,7 +180,7 @@ def compare_hands(
 
 
 def dealer_qualifies(dealer_hand: tuple[HandRank, list[int]]) -> bool:
-    """Dealer must have at least a pair to qualify."""
+    """El dealer tiene que tener un par para calificar"""
     return dealer_hand[0].value >= HandRank.ONE_PAIR.value
 
 
@@ -219,8 +218,8 @@ class PokerGame:
 
     def place_ante(self, amount: int) -> bool:
         """
-        Start a new round with a given ante.
-        Returns False if amount is invalid, True on success.
+        Empieza una nueva ronda con la apuesta dada
+        Devuelve false si la apuesta es inválida, true si se acepta
         """
         if amount <= 0 or amount > self.chips:
             return False
@@ -231,7 +230,7 @@ class PokerGame:
         return True
 
     def reveal_flop(self):
-        """Transition from PRE_FLOP to FLOP (reveals first 3 community cards)."""
+        """Transición de pre flop a flop, revelando 3 cartas"""
         if self.phase != GamePhase.PRE_FLOP:
             raise RuntimeError("Cannot reveal flop in current phase.")
         self.flop = self.community[:3]
@@ -239,12 +238,11 @@ class PokerGame:
 
     def player_bet(self) -> GameResult | None:
         """
-        Player matches the ante. Reveal remaining cards and settle.
-        Returns None (without changing phase) if the player has insufficient chips,
-        so the UI can display a message instead of crashing.
+        El jugador apuesta el mismo monto que el ante para continuar
+        Devuelve el resultado del showdown, o None si no se pudo apostar
         """
         if self.phase != GamePhase.FLOP:
-            raise RuntimeError("Cannot bet in current phase.")
+            raise RuntimeError("Cannot bet in current phase")
         if self.chips < self.ante:
             self.result_message = (
                 "No tienes fichas suficientes para apostar. Recarga o retírate."
@@ -256,7 +254,7 @@ class PokerGame:
         return self._settle()
 
     def player_fold(self) -> GameResult:
-        """Player folds — loses the ante already paid."""
+        """Jugador foldea, el dealer gana automáticamente"""
         if self.phase != GamePhase.FLOP:
             raise RuntimeError("Cannot fold in current phase.")
         self.turn_river = self.community[3:]
@@ -266,7 +264,7 @@ class PokerGame:
         return self.last_result
 
     def new_round(self):
-        """Reset for a fresh round (keeps chip count)."""
+        """Reinicia el juego para una nueva ronda"""
         self.ante = 0
         self.player_hand = []
         self.dealer_hand = []
