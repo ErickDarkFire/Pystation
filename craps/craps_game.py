@@ -11,7 +11,7 @@ class CrapsGame:
         pygame.display.set_caption("Craps")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Arial", 26, bold=True)
-        logo = pygame.image.load(os.path.join("craps", "img", "logo.png")).convert()
+        logo = pygame.image.load(os.path.join("img", "logo.png")).convert() 
         pygame.display.set_icon(logo)
 
         self.saldo = 500
@@ -29,7 +29,7 @@ class CrapsGame:
     def cargar_recursos(self):
         imagenes = []
         for i in range(1, 7):
-            path = os.path.join("craps", "img", f"cube_{i}.jpg")
+            path = os.path.join("img", f"cube_{i}.jpg")
             img = pygame.image.load(path).convert_alpha()
             imagenes.append(pygame.transform.scale(img, (100, 100)))
         return imagenes
