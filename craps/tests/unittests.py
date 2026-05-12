@@ -4,7 +4,7 @@ import sys
 
 # Añadir directorio raíz al path para importar el juego
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from craps_game import CrapsGame
+from craps_game import CrapsGame  # noqa: E402
 
 
 class TestCrapsGame(unittest.TestCase):
