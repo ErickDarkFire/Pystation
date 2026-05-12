@@ -8,7 +8,7 @@ from models.card import Card
 
 class TestBlackjackSystemBDD(unittest.TestCase):
     """
-    Pruebas de sistema (System Tests) utilizando el enfoque BDD.
+    Pruebas de sistema/interfaz BDD
     """
 
     def setUp(self):
@@ -22,7 +22,7 @@ class TestBlackjackSystemBDD(unittest.TestCase):
         pass
 
     def simulate_click(self, x, y):
-        """Herramienta similar a Selenium: Simula un click del mouse en una coordenada x, y"""
+        """Simula un click del mouse en una coordenada x, y"""
         with patch("pygame.mouse.get_pos", return_value=(x, y)):
             event = pygame.event.Event(
                 pygame.MOUSEBUTTONDOWN, {"pos": (x, y), "button": 1}
