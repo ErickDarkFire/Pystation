@@ -389,7 +389,6 @@ class CasinoPokerApp:
     def _draw_dealer_hand(self):
         cx = SCREEN_W // 2
         x0 = cx - (CARD_W + 7)
-        self._draw_hand_label("Mano del Crupier", cx, DEALER_Y - 20)
         face_up = self.game.phase == GamePhase.SHOWDOWN
         self._draw_cards_row(
             self.game.dealer_hand, x0, DEALER_Y, face_up=face_up, n_total=2
@@ -399,7 +398,6 @@ class CasinoPokerApp:
         cx = SCREEN_W // 2
         gap = CARD_W + 14
         x0 = cx - (5 * gap - 14) // 2
-        self._draw_hand_label("Cartas Comunitarias", cx, COMMUNITY_Y - 20)
         revealed = self.game.flop + self.game.turn_river
         for i in range(5):
             px = x0 + i * gap
@@ -421,13 +419,12 @@ class CasinoPokerApp:
     def _draw_player_hand(self):
         cx = SCREEN_W // 2
         x0 = cx - (CARD_W + 7)
-        self._draw_hand_label("Tu Mano", cx, PLAYER_Y - 20)
         self._draw_cards_row(
             self.game.player_hand, x0, PLAYER_Y, face_up=True, n_total=2
         )
 
     def _draw_message(self):
-        """Result / status message in its own fixed band."""
+        """Resultado de la última acción, o instrucciones para la siguiente"""
         strip = pygame.Surface((SCREEN_W - 24, 32), pygame.SRCALPHA)
         strip.fill((0, 0, 0, 55))
         self.screen.blit(strip, (12, MESSAGE_Y - 3))

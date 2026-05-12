@@ -298,7 +298,7 @@ class TestIsStraight:
             ("7", "Spades"),
             ("8", "Hearts"),
         )
-        assert not _is_straight(cards)  # only 4 unique values
+        assert not _is_straight(cards)
 
 
 class TestRankCounts:
