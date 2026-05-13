@@ -1,6 +1,7 @@
 import unittest
 from models.card import Card
 
+
 class TestCard(unittest.TestCase):
 
     def test_card_initialization(self):

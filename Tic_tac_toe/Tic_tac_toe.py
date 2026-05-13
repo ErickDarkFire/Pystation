@@ -5,9 +5,11 @@ import pygame
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 def get_path(*path_parts):
     """Función para unir rutas de forma segura desde la base del juego"""
     return os.path.join(BASE_DIR, *path_parts)
+
 
 pygame.init()
 # Colores
@@ -450,22 +452,24 @@ if __name__ == "__main__":
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONUP:
-                #print("click")
+                # print("click")
                 clic = True
 
             if event.type == pygame.KEYDOWN:
-                    #Con tecla space se reinicia el juego
-                    if event.key == pygame.K_SPACE:
-                        #print("Reiniciando Juego")
-                        #Reinicio del juego
-                        fig,clic,win,pandeo_cont,color_selec, victoria_procesada = Reinicio()
+                # Con tecla space se reinicia el juego
+                if event.key == pygame.K_SPACE:
+                    # print("Reiniciando Juego")
+                    # Reinicio del juego
+                    fig, clic, win, pandeo_cont, color_selec, victoria_procesada = (
+                        Reinicio()
+                    )
 
         # Obtener posicion/coordenadas del mouse
         mouse_pos = pygame.mouse.get_pos()
         x_mouse = mouse_pos[0]
         y_mouse = mouse_pos[1]
-        
-        #Color de fondo
+
+        # Color de fondo
         screen.fill(GREY)
 
         # Color de fondo
@@ -500,18 +504,22 @@ if __name__ == "__main__":
             if coord[1] > alto:
                 coord[1] = 0
 
-        #Dibujar cuadricula (grid) del juego
-        for i in range(1,3):
-            pygame.draw.line(screen,BLACK,(ancho_grid*i,0),(ancho_grid*i,alto),5)
-            pygame.draw.line(screen,BLACK,(0,alto_grid*i),(ancho,alto_grid*i),5)
-        #Dibujamos linea divisora dle juego y el menu.
-        pygame.draw.line(screen,BLACK,(ancho,0),(ancho,alto),5)
+        # Dibujar cuadricula (grid) del juego
+        for i in range(1, 3):
+            pygame.draw.line(
+                screen, BLACK, (ancho_grid * i, 0), (ancho_grid * i, alto), 5
+            )
+            pygame.draw.line(
+                screen, BLACK, (0, alto_grid * i), (ancho, alto_grid * i), 5
+            )
+        # Dibujamos linea divisora dle juego y el menu.
+        pygame.draw.line(screen, BLACK, (ancho, 0), (ancho, alto), 5)
 
         if not win:
-            coord_tablero = Hover(x_mouse,y_mouse)
+            coord_tablero = Hover(x_mouse, y_mouse)
 
-        if clic == True and not win:
-            #print(tablero[coord_tablero[0]][coord_tablero[1]])
+        if clic and not win:
+            # print(tablero[coord_tablero[0]][coord_tablero[1]])
             clic = False
             if tablero[coord_tablero[0]][coord_tablero[1]] == "":
                 # Despues de escoger, cambian los turnos
@@ -522,48 +530,76 @@ if __name__ == "__main__":
                     fig = "O"
                     turno = 0
                 tablero[coord_tablero[0]][coord_tablero[1]] = fig
-                #print(tablero)
+                # print(tablero)
                 sonido_escribir.play()
-            #else:
-                #print("ERROR, Lugar ocupado")
+            # else:
+            # print("ERROR, Lugar ocupado")
 
         # Usar imagen en cursor, les restamos ajus para que quede centrado (Lo ultimo que pintamos para que quede encimado)
         ajus = dim_icon / 2
         screen.blit(player_img, (x_mouse - ajus, y_mouse - ajus))
 
-        #Dibujamos texto en pantalla
-        draw_text_with_border(screen, "Jugador 1:", Titulos, ancho_marco-190, 0, RED, BLACK)
-        screen.blit(p1_wins_text,(ancho_marco-190,50))
-        draw_text_with_border(screen, "Jugador 2:", Titulos, ancho_marco-190, alto//2, BLUE, BLACK)
-        screen.blit(p2_wins_text,(ancho_marco-190,(alto//2)+50))
+        # Dibujamos texto en pantalla
+        draw_text_with_border(
+            screen, "Jugador 1:", Titulos, ancho_marco - 190, 0, RED, BLACK
+        )
+        screen.blit(p1_wins_text, (ancho_marco - 190, 50))
+        draw_text_with_border(
+            screen, "Jugador 2:", Titulos, ancho_marco - 190, alto // 2, BLUE, BLACK
+        )
+        screen.blit(p2_wins_text, (ancho_marco - 190, (alto // 2) + 50))
 
-        draw_text_with_border(screen, "Partidas: " + str(p1_wins + p2_wins), Titulos, ancho_marco-190, alto-50, WHITE, BLACK)
-        ### ----- ZONA DE DIBUJO
+        draw_text_with_border(
+            screen,
+            "Partidas: " + str(p1_wins + p2_wins),
+            Titulos,
+            ancho_marco - 190,
+            alto - 50,
+            WHITE,
+            BLACK,
+        )
+        # ----- ZONA DE DIBUJO
 
-        #Revisamos quien gano
+        # Revisamos quien gano
         if not win:
             win = Check()
 
         if win and not victoria_procesada:
             if turno == 1:
                 p1_wins += 1
-                #print("El ganador es: Player 1!!")
+                # print("El ganador es: Player 1!!")
             elif turno == 0:
                 p2_wins += 1
-                #print("El ganador es: Player 2!!")
+                # print("El ganador es: Player 2!!")
 
-            #Actualizamos los marcadores
-            p1_wins_text = fuente.render("Victorias: " + str(p1_wins), 0, (0,0,0))
-            p2_wins_text = fuente.render("Victorias: " + str(p2_wins), 0, (0,0,0))
+            # Actualizamos los marcadores
+            p1_wins_text = fuente.render("Victorias: " + str(p1_wins), 0, (0, 0, 0))
+            p2_wins_text = fuente.render("Victorias: " + str(p2_wins), 0, (0, 0, 0))
 
             victoria_procesada = True
-        
-        #Dibujamos texto de victoria
+
+        # Dibujamos texto de victoria
         if win:
             if turno == 1:
-                draw_text_with_border(screen, "Gano el jugador 1!", Anuncio, (ancho//4), (alto//2)-40, RED, (0,0,0))
+                draw_text_with_border(
+                    screen,
+                    "Gano el jugador 1!",
+                    Anuncio,
+                    (ancho // 4),
+                    (alto // 2) - 40,
+                    RED,
+                    (0, 0, 0),
+                )
             elif turno == 0:
-                draw_text_with_border(screen, "Gano el jugador 2!", Anuncio, (ancho//4), (alto//2)-40, BLUE, (0,0,0))
+                draw_text_with_border(
+                    screen,
+                    "Gano el jugador 2!",
+                    Anuncio,
+                    (ancho // 4),
+                    (alto // 2) - 40,
+                    BLUE,
+                    (0, 0, 0),
+                )
 
         # actualizar pantalla (refrescar)
         pygame.display.flip()

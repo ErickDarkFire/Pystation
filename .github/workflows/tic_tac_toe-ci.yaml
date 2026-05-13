@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-coverage:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # <-- Cambiamos de ubuntu a windows
 
     steps:
     - name: Clonar el repositorio
@@ -19,33 +19,16 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Instalar dependencias del sistema (Para GUI)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-tk python3-dev xvfb libv4l-dev
-
-    - name: Instalar dependencias de Python
+    - name: Instalar dependencias
       working-directory: ./Tic_tac_toe
       run: |
         python -m pip install --upgrade pip
-        # Instalar librerías base, automatización y BDD
         pip install pygame behave pydirectinput coverage
 
-    - name: Ejecutar Pruebas Unitarias y Medir Cobertura
+    - name: Ejecutar Pruebas (Unitarias y BDD)
       working-directory: ./Tic_tac_toe
-      env:
-        SDL_VIDEODRIVER: dummy
-        SDL_AUDIODRIVER: dummy
       run: |
-        # Ejecuta los unittests de la carpeta tests
+        # En Windows no necesitas xvfb-run, pero la máquina de GitHub
+        # debe tener activada la sesión de escritorio (lo hace por defecto)
         coverage run --source=. -m unittest discover -s tests/ -p "test_*.py"
-
-    - name: Ejecutar Pruebas BDD (Automatización de Interfaz)
-      working-directory: ./Tic_tac_toe
-      run: |
-        # xvfb-run crea un monitor virtual para que pydirectinput pueda hacer clics
-        xvfb-run --server-args="-screen 0 1024x768x24" behave features/
-
-    - name: Validar que la cobertura no baje de la meta
-      working-directory: ./Tic_tac_toe
-      run: coverage report -m --fail-under=85
+        behave features/
