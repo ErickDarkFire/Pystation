@@ -1,26 +1,26 @@
 import os
+
 # Configurar controlador de video virtual ANTES de importar pygame
-os.environ['SDL_VIDEODRIVER'] = 'dummy'
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import pygame
 import sys
 
 # 1. Resolver importación (ajusta la ruta según tu estructura)
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # 2. Preparar el entorno de mocks para recursos externos
-with patch('pygame.mixer.init'), \
-     patch('pygame.mixer.Sound'), \
-     patch('pygame.mixer.music.load'), \
-     patch('pygame.mixer.music.play'), \
-     patch('pygame.font.Font'):
-    
+with patch("pygame.mixer.init"), patch("pygame.mixer.Sound"), patch(
+    "pygame.mixer.music.load"
+), patch("pygame.mixer.music.play"), patch("pygame.font.Font"):
+
     # Parchamos image.load para que devuelva una superficie REAL de 1x1.
     # Al haber un modo de video (dummy), el método .convert() funcionará sin errores.
-    with patch('pygame.image.load', return_value=pygame.Surface((1,1))):
+    with patch("pygame.image.load", return_value=pygame.Surface((1, 1))):
         import Tic_tac_toe as game
+
 
 class TestTicTacToeLogic(unittest.TestCase):
 
@@ -35,7 +35,7 @@ class TestTicTacToeLogic(unittest.TestCase):
 
     # -------------------------------------------------------------------------------------
     # --- VICTORIAS HORIZONTALES ---
-    
+
     def test_win_horizontal_row_0(self):
         game.tablero[0] = ["X", "X", "X"]
         self.assertTrue(game.Check(), "Falló victoria en fila superior")
@@ -80,12 +80,9 @@ class TestTicTacToeLogic(unittest.TestCase):
 
     def test_no_win_mixed(self):
         # Tablero lleno sin ganador (empate)
-        game.tablero = [
-            ["X", "O", "X"],
-            ["X", "O", "O"],
-            ["O", "X", "X"]
-        ]
+        game.tablero = [["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]
         self.assertFalse(game.Check(), "Detectó una victoria falsa en un empate")
+
     # -------------------------------------------------------------------------------------
 
     def test_hover_mapeo_coordenadas(self):
@@ -108,12 +105,12 @@ class TestTicTacToeLogic(unittest.TestCase):
         # Simulamos un clic en la celda [0][0] cuando es turno del jugador 0
         game.turno = 0
         game.tablero[0][0] = "X"
-        # En tu lógica, el turno cambiaría en el bucle principal, 
+        # En tu lógica, el turno cambiaría en el bucle principal,
         # aquí probamos la consistencia de los datos
         self.assertEqual(game.tablero[0][0], "X")
-    
+
     # --- PRUEBAS DE UTILIDADES Y RUTAS ---
-    
+
     def test_get_path_logic(self):
         """Verifica que get_path construya la ruta correctamente"""
         folder = "img"
@@ -128,12 +125,12 @@ class TestTicTacToeLogic(unittest.TestCase):
         """Verifica que Reinicio() devuelva todos los valores de control correctamente"""
         # Según Tic_tac_toe.py: return "X", False, False, 0, Escoger_color(), False
         fig, clic, win, pandeo, color, vict_proc = game.Reinicio()
-        
+
         self.assertEqual(fig, "X")
         self.assertFalse(clic)
         self.assertFalse(win)
         self.assertEqual(pandeo, 0)
-        self.assertIn(color, game.colores) # El color debe ser uno de la lista
+        self.assertIn(color, game.colores)  # El color debe ser uno de la lista
         self.assertFalse(vict_proc)
 
     # --- PRUEBAS DE ALEATORIEDAD ---
@@ -148,15 +145,15 @@ class TestTicTacToeLogic(unittest.TestCase):
     def test_incremento_puntuacion_jugador1(self):
         """Simula la lógica de victoria para asegurar que el Jugador 1 sume puntos"""
         game.win = True
-        game.turno = 1 # En el código, si turno es 1 después del cambio, ganó P1
+        game.turno = 1  # En el código, si turno es 1 después del cambio, ganó P1
         game.victoria_procesada = False
-        
+
         # Simulamos el bloque de lógica de puntuación del archivo original
         if game.win and not game.victoria_procesada:
             if game.turno == 1:
                 game.p1_wins += 1
             game.victoria_procesada = True
-            
+
         self.assertEqual(game.p1_wins, 1)
         self.assertTrue(game.victoria_procesada)
 
@@ -166,12 +163,14 @@ class TestTicTacToeLogic(unittest.TestCase):
         game.win = True
         game.victoria_procesada = True
         game.turno = 1
-        
+
         # Intentamos procesar la victoria de nuevo
         if game.win and not game.victoria_procesada:
             game.p1_wins += 1
-            
-        self.assertEqual(game.p1_wins, 5, "Se sumaron puntos a una victoria ya procesada")
+
+        self.assertEqual(
+            game.p1_wins, 5, "Se sumaron puntos a una victoria ya procesada"
+        )
 
     # --- PRUEBAS DE LÓGICA DE MOVIMIENTOS ---
 
@@ -179,16 +178,17 @@ class TestTicTacToeLogic(unittest.TestCase):
         """Verifica que la lógica no permita sobrescribir una celda ya marcada"""
         # Marcamos una celda manualmente
         game.tablero[1][1] = "X"
-        game.turno = 1 # Turno del Jugador 2 (O)
-        
+        game.turno = 1  # Turno del Jugador 2 (O)
+
         # Simulamos clic en la misma celda [1][1]
         coord_tablero = (1, 1)
-        
+
         # Lógica del clic en Tic_tac_toe.py
         if game.tablero[coord_tablero[0]][coord_tablero[1]] == "":
-             game.tablero[coord_tablero[0]][coord_tablero[1]] = "O"
-        
+            game.tablero[coord_tablero[0]][coord_tablero[1]] = "O"
+
         self.assertEqual(game.tablero[1][1], "X", "La celda ocupada fue sobrescrita")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

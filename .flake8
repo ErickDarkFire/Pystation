@@ -1,3 +1,11 @@
 [flake8]
-max-line-length = 125
+# El estándar moderno compatible con el formateador Black
+max-line-length = 150
+# Ignoramos este error para que no choque con el formato de Black
 extend-ignore = E203
+# No revises carpetas innecesarias
+exclude = .git,__pycache__,venv,env
+# Ignora el error de posición de imports solo en los archivos de la carpeta tests
+per-file-ignores =
+    Tic_tac_toe/tests/*.py: E402
+    Tic_tac_toe/features/steps/steps.py: F811, E402
