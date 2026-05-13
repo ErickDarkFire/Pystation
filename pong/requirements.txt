@@ -1,0 +1,6 @@
+pygame
+coverage
+behave
+pydirectinput
+pygetwindow
+pylint

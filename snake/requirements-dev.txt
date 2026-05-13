@@ -1,0 +1,6 @@
+pygame>=2.1.0
+numpy>=1.21.0
+coverage>=7.0.0
+behave>=1.2.6
+pydirectinput
+pygetwindow

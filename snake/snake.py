@@ -502,7 +502,9 @@ class Game:
             pygame.display.set_caption("Snake Deluxe v2.0")
             self.clock = pygame.time.Clock()
             # Cargar imagen del logo
-            logo = pygame.image.load(os.path.join("snake", "img", "logo.png")).convert()
+            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+            logo_path = os.path.join(BASE_DIR, "img", "logo.png")
+            logo = pygame.image.load(logo_path).convert()
             pygame.display.set_icon(logo)
             self._init_fonts()
             self._build_ui()

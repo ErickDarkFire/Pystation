@@ -47,7 +47,7 @@ colores = [
     SILVER,
 ]
 
-#Medidas de la ventana
+# Medidas de la ventana
 ancho_marco = 1000
 alto = 500
 ancho = 800
@@ -224,14 +224,14 @@ win = False
 # Contador para que el efecto de fondo haga el pandeo
 pandeo_cont = 0
 
-#Variables que indican los resultados
+# Variables que indican los resultados
 p1_wins = 0
 p2_wins = 0
 
 # Bandera que ayuda a saber si la victoria ya fue contada o no
 victoria_procesada = False
 
-#--------------Variables que si cambian durante el juego --------------------------------------
+# --------------Variables que si cambian durante el juego --------------------------------------
 
 # Musica y Sonidos
 pygame.mixer.init()
@@ -246,24 +246,33 @@ fondo = pygame.image.load(get_path("img", "gato_bg2.jpg")).convert()
 p1_cursor = pygame.image.load(get_path("img", "p1_cursor.png")).convert()
 p2_cursor = pygame.image.load(get_path("img", "p2_cursor.png")).convert()
 
-#Texto del juego:
-Anuncio = pygame.font.Font(None,80)
-Titulos = pygame.font.Font(None,45)
-fuente = pygame.font.Font(None,35)
-p1_wins_text = fuente.render("Victorias: " + str(p1_wins),0,(0,0,0))
-p2_wins_text = fuente.render("Victorias: " + str(p2_wins),0,(0,0,0))
+# Texto del juego:
+Anuncio = pygame.font.Font(None, 80)
+Titulos = pygame.font.Font(None, 45)
+fuente = pygame.font.Font(None, 35)
+p1_wins_text = fuente.render("Victorias: " + str(p1_wins), 0, (0, 0, 0))
+p2_wins_text = fuente.render("Victorias: " + str(p2_wins), 0, (0, 0, 0))
 
-import pygame
 
 def draw_text_with_border(surface, text, font, x, y, color_text, color_border):
     # Renderizar el borde (8 direcciones para un borde sólido)
-    for dx, dy in [(-2,-2), (-2,0), (-2,2), (0,-2), (0,2), (2,-2), (2,0), (2,2)]:
+    for dx, dy in [
+        (-2, -2),
+        (-2, 0),
+        (-2, 2),
+        (0, -2),
+        (0, 2),
+        (2, -2),
+        (2, 0),
+        (2, 2),
+    ]:
         border_surf = font.render(text, True, color_border)
         surface.blit(border_surf, (x + dx, y + dy))
-    
+
     # Renderizar el texto principal
     text_surf = font.render(text, True, color_text)
     surface.blit(text_surf, (x, y))
+
 
 # Ejemplo de uso:
 # draw_text_with_border(screen, "Hola", font, 100, 100, (255,255,255), (0,0,0))
@@ -415,19 +424,14 @@ def Reinicio():
     for i in range(3):
         for j in range(3):
             tablero[i][j] = ""
-    #Variables que si cambian durante el juego las reiniciamos
-    #Bandera de control de turnos turno = 0
-    #Elemento a dibujar en la matriz fig = "X"
-    #bandera que indica si se hizo clic o no clic = False
-    #Bandera que controla el fin del juego win = False
-    #Contador para que el efecto de fondo haga el pandeo pandeo_cont = 0
-    #Color de fondo animado
+    # Variables que si cambian durante el juego las reiniciamos
+    # Bandera de control de turnos turno = 0
+    # Elemento a dibujar en la matriz fig = "X"
+    # bandera que indica si se hizo clic o no clic = False
+    # Bandera que controla el fin del juego win = False
+    # Contador para que el efecto de fondo haga el pandeo pandeo_cont = 0
+    # Color de fondo animado
     return "X", False, False, 0, Escoger_color(), False
-    
-def Escoger_color():
-    #Obtenemos un numero random para asignarle el color al fondo
-    cs = random.randint(0,len(colores)-1)
-    return colores[cs]    
 
 
 def Escoger_color():
