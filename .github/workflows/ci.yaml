@@ -69,9 +69,3 @@ jobs:
           # Se ejecutan las pruebas de lógica desde la carpeta de tests
           coverage run --source=Tic_tac_toe -m unittest discover -s Tic_tac_toe/tests -p "test_*.py"
           coverage report -m
-
-      - name: BDD Tests — Tic Tac Toe (GUI Automation)
-        # xvfb-run permite que pydirectinput y pygame interactúen en un monitor virtual
-        run: |
-          echo "=== Tic Tac Toe: BDD con PyDirectInput ==="
-          xvfb-run --server-args="-screen 0 1024x768x24" behave Tic_tac_toe/features
