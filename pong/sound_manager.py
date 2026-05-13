@@ -12,9 +12,9 @@ class Sonidos:
         except Exception:
             self.habilitado = False
 
-        self.sonido_rebote = self.cargar_sonido("sound/rebote.ogg")
-        self.sonido_punto = self.cargar_sonido("sound/punto.wav")
-        self.sonido_ganador = self.cargar_sonido("sound/ganador.wav")
+        self.sonido_rebote = self.cargar_sonido("pong/sound/rebote.ogg")
+        self.sonido_punto = self.cargar_sonido("pong/sound/punto.wav")
+        self.sonido_ganador = self.cargar_sonido("pong/sound/ganador.wav")
 
     def cargar_sonido(self, ruta):
         if not self.habilitado:

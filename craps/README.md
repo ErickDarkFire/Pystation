@@ -1,4 +1,4 @@
-# Casino Craps
+ # Casino Craps
 Es un juego desarrollado con Pygame basado en el juego de casino Craps, el objetivo del juego es apostar y tirar los dados los cuales pueden dar los siguientes resultados:
 - Si la suma de los dados da 7 o 11, consigues un número natural y ganas al instante
 - Si la suma de los dados da 2, 3 o 12 consigues un número conocido como Crap y pierdes
