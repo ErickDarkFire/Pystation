@@ -25,3 +25,9 @@ Para salir del juego se debe de pulsar el botón de Escape
 ## Características
 
 El juego tiene dos características a tomar en cuenta, la primera es que el juego tiene un contador de partidas ganadas y partidas perdidas, la segunda es que al inicio empiezas con $500, si llegas a perder todo tu dinero el juego te indica que estás en bancarrota, pero te rellena tu cuenta con otros $500 para que puedas seguir jugando.
+
+---
+
+## Imagen del juego
+
+<img src="../mockups/craps.png" alt="Ejemplo de juego" width="350">
