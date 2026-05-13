@@ -2,6 +2,8 @@ import pygame
 import random
 import os
 
+base_path = os.path.abspath(os.path.dirname(__file__))
+
 
 class CrapsGame:
     def __init__(self):
@@ -11,7 +13,7 @@ class CrapsGame:
         pygame.display.set_caption("Craps")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Arial", 26, bold=True)
-        logo = pygame.image.load(os.path.join("craps", "img", "logo.png")).convert()
+        logo = pygame.image.load(os.path.join(base_path, "img", "logo.png")).convert()
         pygame.display.set_icon(logo)
 
         self.saldo = 500
@@ -29,8 +31,13 @@ class CrapsGame:
     def cargar_recursos(self):
         imagenes = []
         for i in range(1, 7):
-            path = os.path.join("craps", "img", f"cube_{i}.jpg")
-            img = pygame.image.load(path).convert_alpha()
+            path = os.path.join(base_path, "img", f"cube_{i}.jpg")
+            img = pygame.image.load(path)
+            if (
+                pygame.display.get_init()
+                and os.environ.get("SDL_VIDEODRIVER") != "dummy"
+            ):
+                img = img.convert_alpha()
             imagenes.append(pygame.transform.scale(img, (100, 100)))
         return imagenes
 

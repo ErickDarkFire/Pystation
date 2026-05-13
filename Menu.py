@@ -38,7 +38,6 @@ def cargar_recursos():
     data = []
     for nombre in nombres_juegos:
         # Ruta: juego/img/logo.png
-        print(nombre)
         ruta_logo = os.path.join(nombre, "img", "logo.png")
 
         if os.path.exists(ruta_logo):

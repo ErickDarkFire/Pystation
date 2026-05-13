@@ -4,11 +4,15 @@ import sys
 from unittest.mock import patch
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
-ruta_raiz_proyecto = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-os.chdir(ruta_raiz_proyecto)
-sys.path.append(ruta_raiz_proyecto)
 
-from craps_game import CrapsGame  # noqa: E402
+ruta_raiz_proyecto = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..")
+)
+os.chdir(ruta_raiz_proyecto)
+if ruta_raiz_proyecto not in sys.path:
+    sys.path.append(ruta_raiz_proyecto)
+
+from craps.craps_game import CrapsGame  # noqa: E402
 
 
 class TestCrapsGame(unittest.TestCase):
