@@ -28,6 +28,13 @@ jobs:
       working-directory: ./Tic_tac_toe
       run: |
         python -m pip install --upgrade pip
+        # Añadimos pyautogui para compatibilidad con Linux
+        pip install pygame behave pydirectinput pyautogui coverage
+
+    - name: Instalar dependencias de Python
+      working-directory: ./Tic_tac_toe
+      run: |
+        python -m pip install --upgrade pip
         # Instalar librerías base, automatización y BDD
         pip install pygame behave pydirectinput coverage
 

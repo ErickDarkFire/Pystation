@@ -3,6 +3,16 @@ import pydirectinput
 import subprocess
 import time
 
+# Intentar importar pydirectinput (Windows).
+# Si falla (Linux), usamos pyautogui como alternativa compatible con Xvfb.
+try:
+    import pydirectinput
+except (AttributeError, ImportError):
+    import pyautogui as pydirectinput
+
+    # Configuramos un pequeño delay para que se comporte similar a pydirectinput
+    pydirectinput.PAUSE = 0.1
+
 # Configuración de coordenadas basada en tu código Tic_tac_toe.py
 ANCHO_GRID = 800 / 3
 ALTO_GRID = 500 / 3
