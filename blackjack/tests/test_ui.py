@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 import os
 import pygame
 
@@ -47,13 +48,13 @@ class TestUI(unittest.TestCase):
     def test_button_update(self):
         btn = Button("TEST", 0, 0, 100, 50, "test_id")
         # Collides
-        with unittest.mock.patch("pygame.mouse.get_pos", return_value=(50, 25)):
+        with patch("pygame.mouse.get_pos", return_value=(50, 25)):
             event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
             res = btn.update([event])
             self.assertEqual(res, "test_id")
 
         # Doesn't collide
-        with unittest.mock.patch("pygame.mouse.get_pos", return_value=(200, 200)):
+        with patch("pygame.mouse.get_pos", return_value=(200, 200)):
             event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
             res = btn.update([event])
             self.assertIsNone(res)
@@ -76,11 +77,11 @@ class TestUI(unittest.TestCase):
         draw_suit_shape(self.surface, "♠", 10, 10)
 
     def test_settings_get_font(self):
-        with unittest.mock.patch.dict(os.environ, {"SDL_VIDEODRIVER": ""}):
+        with patch.dict(os.environ, {"SDL_VIDEODRIVER": ""}):
             font = st.get_font(10)
             self.assertIsNotNone(font)
 
-        with unittest.mock.patch.dict(os.environ, {"SDL_VIDEODRIVER": "dummy"}):
+        with patch.dict(os.environ, {"SDL_VIDEODRIVER": "dummy"}):
             font = st.get_font(10)
             font.render("test", True, (0, 0, 0))
             font.get_rect()

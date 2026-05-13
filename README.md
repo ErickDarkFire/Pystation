@@ -104,7 +104,6 @@ python pong/pong.py
 python snake/snake.py
 python Tic_tac_toe/Tic_tac_toe.py
 ```
-
 ---
 
 ## Cómo ejecutar las pruebas
@@ -239,8 +238,11 @@ Pystation/
 │   ├── game_logic.py              # Lógica: cartas, manos, fases del juego
 │   ├── requirements.txt
 │   ├── img/
-│   └── tests/
-│       └── test_unit.py           # 155 pruebas con pytest
+│   ├── tests/
+│   │   ├── test_unit.py           # Pruebas unitarias
+│   │   └── test_integration.py    # Pruebas de integración
+│   └── system_tests/
+│       └── features/              # Pruebas BDD con behave
 │
 ├── pong/
 │   ├── pong.py                    # Juego completo
@@ -265,7 +267,10 @@ Pystation/
 └── Tic_tac_toe/
     ├── Tic_tac_toe.py
     ├── img/
-    └── musica/
+    ├── musica/
+    ├── tests/
+    │   └── test_tic_tac_toe.py    # Pruebas unitarias
+    └── features/                  # Pruebas BDD con behave
 ```
 
 ---
@@ -274,9 +279,23 @@ Pystation/
 
 | Juego | Framework | Pruebas | Cobertura lógica |
 |-------|-----------|---------|-----------------|
-| Blackjack | unittest + behave | 41 | 98% |
-| Craps | unittest | 2 | 34% (craps_game.py) |
-| Poker | pytest | 155 | 96% (game_logic.py) |
+| Blackjack | unittest + behave | 41 | 96% |
+| Craps | unittest | 2 | 43% |
+| Poker | pytest + behave | 108 | 94% |
 | Pong | unittest | 28 | 79% |
 | Snake | unittest + behave | 80+ | >85% |
-| Tic Tac Toe | — | — | — |
+| Tic Tac Toe | unittest + behave | 23 | ~72% |
+
+
+---
+
+## Juegos Incluidos
+
+Cada minijuego cuenta con su propia documentación detallada. Puedes consultarla en los siguientes enlaces:
+
+- 🃏 [Blackjack](blackjack/README.md)
+- 🎲 [Craps](craps/README.md)
+- ♠️ [Poker](poker/README.md)
+- 🏓 [Pong](pong/README.md)
+- 🐍 [Snake](snake/README.md)
+- ❌⭕ [Tic Tac Toe](Tic_tac_toe/Tic_tac_toe.py) (Documentación en código)

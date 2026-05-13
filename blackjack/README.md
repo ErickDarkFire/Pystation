@@ -38,7 +38,23 @@ Este juego fue construido a partir de las siguientes tecnologías:
 - **Pygame**: Biblioteca utilizada para el motor gráfico, la recolección de eventos (clics, teclas) y el renderizado de los componentes visuales e interfaz gráfica.
 - **Pytest / Coverage**: Herramientas para la ejecución de pruebas unitarias y garantizar una alta cobertura de código en el proyecto.
 
-## Mejoras Futuras
-En futuras versiones, el proyecto tiene como meta implementar las siguientes mejoras:
-- **Rediseño Moderno de la Interfaz**: Se espera actualizar y modernizar la experiencia visual para ofrecer una interfaz gráfica (UI) más limpia, dinámica y atractiva, incluyendo posibles animaciones y mejores componentes.
-- **Mayor Cobertura y Nuevas Pruebas**: Se busca potenciar la robustez y fiabilidad del software incrementando la cantidad de pruebas unitarias, abarcando más casos borde y componentes de la interfaz de usuario.
+## Cómo Contribuir
+
+Si deseas contribuir a la mejora de este minijuego o de PyStation en general:
+1. Crea una rama desde `develop`: `git checkout -b feature/nueva-mejora`
+2. Realiza tus cambios y asegúrate de agregar o actualizar las pruebas en la carpeta `tests/`.
+3. Verifica que el código cumpla con los estándares ejecutando el linter: `flake8 .`
+4. Sube tus cambios y abre un **Pull Request** hacia la rama `develop`.
+
+Para más detalles sobre las reglas del proyecto, consulta la sección de contribución en el [README principal](../README.md).
+
+## Otros Juegos en PyStation
+
+Blackjack es parte de la colección de minijuegos **PyStation**. Puedes explorar los demás juegos y sus documentaciones aquí:
+
+- 🎮 [Menú Principal / PyStation](../README.md)
+- 🎲 [Craps](../craps/README.md)
+- ♠️ [Poker](../poker/README.md)
+- 🏓 [Pong](../pong/README.md)
+- 🐍 [Snake](../snake/README.md)
+- ❌⭕ Tic Tac Toe
