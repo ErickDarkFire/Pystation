@@ -30,4 +30,4 @@ El juego tiene dos características a tomar en cuenta, la primera es que el jueg
 
 ## Imagen del juego
 
-<img src="../mockups/craps.png" alt="Ejemplo de juego" width="350"> 
+<img src="../mockups/craps.png" alt="Ejemplo de juego" width="350">
