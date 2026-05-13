@@ -151,13 +151,15 @@ coverage html -d coverage_html/
 
 ## Integración continua (CI)
 
-El repositorio tiene tres workflows de GitHub Actions que se ejecutan automáticamente en cada Pull Request:
+El repositorio tiene cinco workflows de GitHub Actions que se ejecutan automáticamente en cada Pull Request:
 
-| Workflow | Archivo | Cuándo se activa |
-|----------|---------|-----------------|
-| CI principal | `.github/workflows/ci.yaml` | PRs a `main` o `develop` |
-| Snake CI | `.github/workflows/snake-ci.yaml` | PRs con cambios en `snake/` |
-| Pre-commit | `.github/workflows/.pre-commit.yaml` | PRs a `main` |
+| Workflow        | Archivo                                 | Cuándo se activa                  |
+|-----------------|-----------------------------------------|-----------------------------------|
+| CI principal    | `.github/workflows/ci.yaml`             | PRs a `main` o `develop`          |
+| Snake CI        | `.github/workflows/snake-ci.yaml`       | PRs con cambios en `snake/`       |
+| Poker CI        | `.github/workflows/poker-ci.yaml`       | PRs con cambios en `poker/`       |
+| Tic tac toe CI  | `.github/workflows/tic_tac_toe-ci.yaml` | PRs con cambios en `Toc_tac_toe/` |
+| Pre-commit      | `.github/workflows/.pre-commit.yaml`    | PRs a `main`                      |
 
 El CI principal ejecuta en orden:
 1. **Linter** — `flake8 .` sobre todo el código
@@ -165,6 +167,7 @@ El CI principal ejecuta en orden:
 3. **Craps** — pruebas unitarias, reporte de cobertura
 4. **Poker** — 155 pruebas con pytest, reporte de cobertura
 5. **Pong** — 28 pruebas, reporte de cobertura
+6. **Tic tac toe** — 23 pruebas, reporte de cobertura
 
 ---
 
@@ -206,11 +209,18 @@ Pystation/
 ├── Menu.py                        # Punto de entrada — menú principal
 ├── requirements.txt               # Dependencias globales
 ├── README.md
+├── .flake8
+├── .coverage
+│
+├── .vscode/
+│   └── settings.json
 │
 ├── .github/
 │   └── workflows/
 │       ├── ci.yaml                # CI principal (lint + pruebas de todos los juegos)
 │       ├── snake-ci.yaml          # CI dedicado para Snake con diff de cobertura
+│       ├── poker-ci.yaml          # CI dedicado para poker con diff de cobertura
+│       ├── tic_tac_toe-ci.yaml    # CI dedicado para Tic tac toe con diff de cobertura y pruebas en gui
 │       └── .pre-commit.yaml       # Ejecución de hooks pre-commit en CI
 │
 ├── mockups/                       # Capturas de pantalla de la aplicación
@@ -264,19 +274,33 @@ Pystation/
 │
 └── Tic_tac_toe/
     ├── Tic_tac_toe.py
+    ├── features/
+    │   ├── steps/
+    |   │   └── steps.py
+    │   └── tictactoe.feature
+    ├── tests/
+    |   └── test_tic_tac_toe.py
     ├── img/
+    │   ├── gato_bg.jpg
+    │   ├── gato_bg2.jpg
+    │   ├── logo.png
+    │   ├── p1_cursor.png
+    │   └── p2_cursor.png
+    ├── .coverage
     └── musica/
+        ├── background.mp3
+        └── write.wav
 ```
 
 ---
 
 ## Resumen de pruebas por juego
 
-| Juego | Framework | Pruebas | Cobertura lógica |
-|-------|-----------|---------|-----------------|
-| Blackjack | unittest + behave | 41 | 98% |
-| Craps | unittest | 2 | 34% (craps_game.py) |
-| Poker | pytest | 155 | 96% (game_logic.py) |
-| Pong | unittest | 28 | 79% |
-| Snake | unittest + behave | 80+ | >85% |
-| Tic Tac Toe | — | — | — |
+| Juego       | Framework         | Pruebas | Cobertura lógica    |
+|-------------|-------------------|---------|---------------------|
+| Blackjack   | unittest + behave | 41      | 98%                 |
+| Craps       | unittest          | 2       | 34% (craps_game.py) |
+| Poker       | pytest            | 155     | 96% (game_logic.py) |
+| Pong        | unittest          | 28      | 79%                 |
+| Snake       | unittest + behave | 80+     | >85%                |
+| Tic Tac Toe | unittest + behave | 23      | 72%                 |
