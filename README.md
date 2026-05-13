@@ -104,7 +104,6 @@ python pong/pong.py
 python snake/snake.py
 python Tic_tac_toe/Tic_tac_toe.py
 ```
-
 ---
 
 ## Cómo ejecutar las pruebas
@@ -249,8 +248,11 @@ Pystation/
 │   ├── game_logic.py              # Lógica: cartas, manos, fases del juego
 │   ├── requirements.txt
 │   ├── img/
-│   └── tests/
-│       └── test_unit.py           # 155 pruebas con pytest
+│   ├── tests/
+│   │   ├── test_unit.py           # Pruebas unitarias
+│   │   └── test_integration.py    # Pruebas de integración
+│   └── system_tests/
+│       └── features/              # Pruebas BDD con behave
 │
 ├── pong/
 │   ├── pong.py                    # Juego completo
