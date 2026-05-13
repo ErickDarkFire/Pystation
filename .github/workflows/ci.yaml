@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
 
@@ -21,14 +23,20 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk python3-dev xvfb libv4l-dev
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install flake8 coverage pytest pytest-cov
+          pip install flake8 coverage pytest pytest-cov behave pydirectinput
 
       - name: Run linter
         run: |
-          flake8 .
+          # Excluimos carpetas de caché y entornos virtuales
+          flake8 . --exclude=venv,__pycache__
 
       - name: Coverage — Blackjack
         run: |
@@ -54,3 +62,16 @@ jobs:
           echo "=== Pong ==="
           coverage run --source=pong -m unittest discover -s pong/tests -t pong
           coverage report -m
+
+      - name: Coverage — Tic Tac Toe (Unittest)
+        run: |
+          echo "=== Tic Tac Toe: Unit Tests ==="
+          # Se ejecutan las pruebas de lógica desde la carpeta de tests
+          coverage run --source=Tic_tac_toe -m unittest discover -s Tic_tac_toe/tests -p "test_*.py"
+          coverage report -m
+
+      - name: BDD Tests — Tic Tac Toe (GUI Automation)
+        # xvfb-run permite que pydirectinput y pygame interactúen en un monitor virtual
+        run: |
+          echo "=== Tic Tac Toe: BDD con PyDirectInput ==="
+          xvfb-run --server-args="-screen 0 1024x768x24" behave Tic_tac_toe/features
