@@ -301,8 +301,19 @@ Pystation/
 | Juego       | Framework         | Pruebas | Cobertura lógica    |
 |-------------|-------------------|---------|---------------------|
 | Blackjack   | unittest + behave | 41      | 98%                 |
-| Craps       | unittest          | 2       | 34% (craps_game.py) |
-| Poker       | pytest            | 155     | 96% (game_logic.py) |
+| Craps       | unittest          | 27      | 88%                 |
+| Poker       | pytest + behave   | 104     | 96%                 |
 | Pong        | unittest          | 28      | 79%                 |
-| Snake       | unittest + behave | 80+     | >85%                |
-| Tic Tac Toe | unittest + behave | 23      | 72%                 |
+| Snake       | unittest + behave | 121     | 62%                 |
+| Tic Tac Toe | unittest + behave | 19      | 72%                 |
+
+## Juegos
+
+Cada minijuego cuenta con su propia documentación detallada. Puedes consultarla en los siguientes enlaces:
+
+- 🃏 [Blackjack](blackjack/README.md)
+- 🎲 [Craps](craps/README.md)
+- ♠️ [Poker](poker/README.md)
+- 🏓 [Pong](pong/README.md)
+- 🐍 [Snake](snake/README.md)
+- ❌⭕ [Tic Tac Toe](Tic_tac_toe/Tic_tac_toe.py)
